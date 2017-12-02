@@ -46,7 +46,7 @@ class Client {
    * @param Configuration $configuration The environment settings.
    * @throws \InvalidArgumentException The specified coverage report is empty or its format is not supported.
    */
-  public function upload(string $coverage, Configuration $configuration = null) {
+  public function upload(string $coverage, Configuration $configuration = null): void {
     $report = trim($coverage);
     if (!mb_strlen($report)) throw new \InvalidArgumentException('The specified coverage report is empty.');
 
@@ -88,7 +88,7 @@ class Client {
    * @throws \InvalidArgumentException The job does not meet the requirements.
    * @throws \RuntimeException An error occurred while uploading the report.
    */
-  public function uploadJob(Job $job) {
+  public function uploadJob(Job $job): void {
     if (!$job->getRepoToken() && !$job->getServiceName())
       throw new \InvalidArgumentException('The job does not meet the requirements.');
 
@@ -121,7 +121,7 @@ class Client {
    * @param Job $job The job to update.
    * @param Configuration $config The parameters to define.
    */
-  private function updateJob(Job $job, Configuration $config) {
+  private function updateJob(Job $job, Configuration $config): void {
     if (isset($config['repo_token']) || isset($config['repo_secret_token']))
       $job->setRepoToken($config['repo_token'] ?? $config['repo_secret_token']);
 

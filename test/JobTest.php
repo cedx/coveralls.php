@@ -13,7 +13,7 @@ class JobTest extends TestCase {
   /**
    * @test Job::fromJson
    */
-  public function testFromJson() {
+  public function testFromJson(): void {
     it('should return a null reference with a non-object value', function() {
       expect(Job::fromJson('foo'))->to->be->null;
     });
@@ -62,7 +62,7 @@ class JobTest extends TestCase {
   /**
    * @test Job::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return a map with default values for a newly created instance', function() {
       $map = (new Job)->jsonSerialize();
       expect(get_object_vars($map))->to->have->lengthOf(1);
@@ -94,7 +94,7 @@ class JobTest extends TestCase {
   /**
    * @test Job::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $job = (string) (new Job([new SourceFile('/home/cedx/coveralls.php', '')]))
       ->setGit(new GitData(new GitCommit(''), 'develop'))
       ->setParallel(true)

@@ -173,7 +173,7 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
    * Adds all entries of the specified configuration to this one.
    * @param Configuration $config The configuration to be merged.
    */
-  public function merge(self $config) {
+  public function merge(self $config): void {
     foreach ($config as $key => $value) $this[$key] = $value;
   }
 
@@ -200,7 +200,7 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
    * @param string $key The key to seek for.
    * @param mixed $value The new value.
    */
-  public function offsetSet($key, $value) {
+  public function offsetSet($key, $value): void {
     $this->params[$key] = $value;
   }
 
@@ -208,7 +208,7 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
    * Removes the value associated to the specified key.
    * @param string $key The key to seek for.
    */
-  public function offsetUnset($key) {
+  public function offsetUnset($key): void {
     unset($this->params[$key]);
   }
 }

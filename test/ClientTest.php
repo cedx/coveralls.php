@@ -13,7 +13,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::updateJob
    */
-  public function testUpdateJob() {
+  public function testUpdateJob(): void {
     $updateJob = function($job, $config) {
       $this->updateJob($job, $config);
     };
@@ -52,7 +52,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::upload
    */
-  public function testUpload() {
+  public function testUpload(): void {
     it('should throw an exception with an empty coverage report', function() {
       try {
         (new Client)->upload('');
@@ -79,7 +79,7 @@ class ClientTest extends TestCase {
   /**
    * @test Client::uploadJob
    */
-  public function testUploadJob() {
+  public function testUploadJob(): void {
     it('should throw an exception with an empty coverage job', function() {
       try {
         (new Client)->uploadJob(new Job);

@@ -13,7 +13,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test \ArrayAccess
    */
-  public function testArrayAccess() {
+  public function testArrayAccess(): void {
     $config = new Configuration;
 
     it('should handle the existence of an element', function() use ($config) {
@@ -34,7 +34,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::count
    */
-  public function testCount() {
+  public function testCount(): void {
     it('should return zero for an empty configuration', function() {
       expect(new Configuration)->to->have->lengthOf(0);
     });
@@ -47,7 +47,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::fromEnvironment
    */
-  public function testFromEnvironment() {
+  public function testFromEnvironment(): void {
     it('should return an empty configuration for an empty environment', function() {
       $config = Configuration::fromEnvironment([]);
       expect($config)->to->have->lengthOf(0);
@@ -75,7 +75,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::fromYaml
    */
-  public function testFromYaml() {
+  public function testFromYaml(): void {
     it('should throw an exception with a non-object value', function() {
       expect(function() { Configuration::fromYaml('**123/456**'); })->to->throw(\InvalidArgumentException::class);
       expect(function() { Configuration::fromYaml('foo'); })->to->be->throw(\InvalidArgumentException::class);
@@ -93,7 +93,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::getIterator
    */
-  public function testGetIterator() {
+  public function testGetIterator(): void {
     it('should return a done iterator if configuration is empty', function() {
       $iterator = (new Configuration)->getIterator();
       expect($iterator->valid())->to->be->false;
@@ -118,7 +118,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::getKeys
    */
-  public function testGetKeys() {
+  public function testGetKeys(): void {
     it('should return an empty array for an empty configuration', function() {
       expect((new Configuration)->getKeys())->to->be->empty;
     });
@@ -134,7 +134,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return an empty map for a newly created instance', function() {
       $map = (new Configuration)->jsonSerialize();
       expect($map)->to->be->empty;
@@ -151,7 +151,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::loadDefaults
    */
-  public function testLoadDefaults() {
+  public function testLoadDefaults(): void {
     it('should properly initialize from a `.coveralls.yml` file', function() {
       $config = Configuration::loadDefaults('test/fixtures/.coveralls.yml');
       expect($config)->to->have->length->of->at->least(2);
@@ -169,7 +169,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::merge
    */
-  public function testMerge() {
+  public function testMerge(): void {
     it('should have the same entries as the other configuration', function() {
       $config = new Configuration;
       expect($config)->to->have->lengthOf(0);
@@ -184,7 +184,7 @@ class ConfigurationTest extends TestCase {
   /**
    * @test Configuration::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $config = (string) new Configuration(['foo' => 'bar', 'bar' => 'baz']);
 
     it('should start with the class name', function() use ($config) {

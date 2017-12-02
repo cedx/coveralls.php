@@ -13,7 +13,7 @@ class GitCommitTest extends TestCase {
   /**
    * @test GitCommit::fromJson
    */
-  public function testFromJson() {
+  public function testFromJson(): void {
     it('should return a null reference with a non-object value', function() {
       expect(GitCommit::fromJson('foo'))->to->be->null;
     });
@@ -47,7 +47,7 @@ class GitCommitTest extends TestCase {
   /**
    * @test GitCommit::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return a map with default values for a newly created instance', function() {
       $map = (new GitCommit(''))->jsonSerialize();
       expect(get_object_vars($map))->to->have->lengthOf(1);
@@ -71,7 +71,7 @@ class GitCommitTest extends TestCase {
   /**
    * @test GitCommit::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $commit = (string) (new GitCommit('2ef7bde608ce5404e97d5f042f95f89f1c232871', 'Hello World!'))
       ->setAuthorEmail('anonymous@secret.com')
       ->setAuthorName('Anonymous');

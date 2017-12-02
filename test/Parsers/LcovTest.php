@@ -14,14 +14,14 @@ class LcovTest extends TestCase {
   /**
    * Performs a common set of tasks just before the first test method is called.
    */
-  public static function setUpBeforeClass() {
+  public static function setUpBeforeClass(): void {
     require_once __DIR__.'/../../lib/Parsers/Lcov.php';
   }
 
   /**
    * @test parseReport
    */
-  public function testParseReport() {
+  public function testParseReport(): void {
     it('should properly parse LCOV reports', function() {
       /** @var \Coveralls\Job $job */
       $job = parseReport(file_get_contents('test/fixtures/lcov.info'));

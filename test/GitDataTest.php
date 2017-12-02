@@ -13,7 +13,7 @@ class GitDataTest extends TestCase {
   /**
    * @test GitData::fromJson
    */
-  public function testFromJson() {
+  public function testFromJson(): void {
     it('should return a null reference with a non-object value', function() {
       expect(GitData::fromJson('foo'))->to->be->null;
     });
@@ -52,7 +52,7 @@ class GitDataTest extends TestCase {
   /**
    * @test GitData::fromRepository
    */
-  public function testFromRepository() {
+  public function testFromRepository(): void {
     it('should retrieve the Git data from the executable output', function() {
       $data = GitData::fromRepository();
       expect($data->getBranch())->to->not->be->empty;
@@ -78,7 +78,7 @@ class GitDataTest extends TestCase {
   /**
    * @test GitData::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return a map with default values for a newly created instance', function() {
       $map = (new GitData(new GitCommit('')))->jsonSerialize();
       expect(get_object_vars($map))->to->have->lengthOf(3);
@@ -104,7 +104,7 @@ class GitDataTest extends TestCase {
   /**
    * @test GitData::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $data = (string) new GitData(new GitCommit('2ef7bde608ce5404e97d5f042f95f89f1c232871'), 'develop', [new GitRemote('origin')]);
 
     it('should start with the class name', function() use ($data) {

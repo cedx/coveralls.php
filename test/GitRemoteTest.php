@@ -13,7 +13,7 @@ class GitRemoteTest extends TestCase {
   /**
    * @test GitRemote::fromJson
    */
-  public function testFromJson() {
+  public function testFromJson(): void {
     it('should return a null reference with a non-object value', function() {
       expect(GitRemote::fromJson('foo'))->to->be->null;
     });
@@ -36,7 +36,7 @@ class GitRemoteTest extends TestCase {
   /**
    * @test GitRemote::jsonSerialize
    */
-  public function testJsonSerialize() {
+  public function testJsonSerialize(): void {
     it('should return a map with default values for a newly created instance', function() {
       $map = (new GitRemote(''))->jsonSerialize();
       expect(get_object_vars($map))->to->have->lengthOf(2);
@@ -55,7 +55,7 @@ class GitRemoteTest extends TestCase {
   /**
    * @test GitRemote::__toString
    */
-  public function testToString() {
+  public function testToString(): void {
     $remote = (string) new GitRemote('origin', 'https://github.com/cedx/coveralls.php.git');
 
     it('should start with the class name', function() use ($remote) {
