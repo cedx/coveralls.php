@@ -26,7 +26,7 @@
     "lcov"
   ],
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.1.0",
     "ext-curl": "*",
     "ext-date": "*",
     "ext-json": "*",
@@ -39,7 +39,7 @@
     "evenement/evenement": "^3.0.1",
     "guzzlehttp/guzzle": "^6.3.0",
     "nategood/commando": "^0.2.9",
-    "symfony/yaml": "^3.3.9",
+    "symfony/yaml": "^3.4.0 || ^4.0.0",
     "webmozart/path-util": "^2.3.0"
   },
   "require-dev": {
