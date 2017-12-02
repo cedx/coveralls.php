@@ -1,6 +1,11 @@
 # Changelog
 This file contains highlights of what changes on each version of the [Coveralls for PHP](https://github.com/cedx/coveralls.php) package.
 
+## Version [7.0.0](https://github.com/cedx/coveralls.php/compare/v6.0.0...v7.0.0)
+- Breaking change: raised the required [PHP](https://secure.php.net) version.
+- Breaking change: using PHP 7.1 features, like nullable types and void functions.
+- Updated the package dependencies.
+
 ## Version [6.0.0](https://github.com/cedx/coveralls.php/compare/v5.0.0...v6.0.0)
 - Breaking change: changed the signature of most class constructors.
 - Breaking change: most class properties are now read-only.
