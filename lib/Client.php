@@ -17,7 +17,7 @@ class Client {
   /**
    * @var string The URL of the default API end point.
    */
-  const DEFAULT_ENDPOINT = 'https://coveralls.io';
+  public const DEFAULT_ENDPOINT = 'https://coveralls.io';
 
   /**
    * @var Uri The URL of the API end point.
@@ -36,7 +36,7 @@ class Client {
    * Gets the URL of the API end point.
    * @return UriInterface The URL of the API end point.
    */
-  public function getEndPoint() {
+  public function getEndPoint(): ?UriInterface {
     return $this->endPoint;
   }
 
@@ -100,8 +100,8 @@ class Client {
       ]]);
 
       $headers = [
-        'Content-Length' => $body->getSize(),
-        'Content-Type' => "multipart/form-data; boundary={$body->getBoundary()}"
+        'content-length' => $body->getSize(),
+        'content-type' => "multipart/form-data; boundary={$body->getBoundary()}"
       ];
 
       $request = new Request('POST', $this->getEndPoint()->withPath('/api/v1/jobs'), $headers, $body);

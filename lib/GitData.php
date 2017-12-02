@@ -48,7 +48,7 @@ class GitData implements \JsonSerializable {
    * @param mixed $map A JSON map representing a Git data.
    * @return GitData The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     $transform = function($remotes) {
       return array_values(array_filter(array_map([GitRemote::class, 'fromJson'], $remotes)));
     };
@@ -106,7 +106,7 @@ class GitData implements \JsonSerializable {
    * Gets the Git commit.
    * @return GitCommit The Git commit.
    */
-  public function getCommit() {
+  public function getCommit(): ?GitCommit {
     return $this->commit;
   }
 

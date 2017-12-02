@@ -55,7 +55,7 @@ class SourceFile implements \JsonSerializable {
    * @param mixed $map A JSON map representing a source file.
    * @return SourceFile The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     return !is_object($map) ? null : new static(
       isset($map->name) && is_string($map->name) ? $map->name : '',

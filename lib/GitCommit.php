@@ -61,7 +61,7 @@ class GitCommit implements \JsonSerializable {
    * @param mixed $map A JSON map representing a Git commit.
    * @return GitCommit The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     if (!is_object($map)) return null;
 

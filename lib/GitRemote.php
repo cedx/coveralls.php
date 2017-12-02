@@ -44,7 +44,7 @@ class GitRemote implements \JsonSerializable {
    * @param mixed $map A JSON map representing a remote repository.
    * @return GitRemote The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     return !is_object($map) ? null : new static(
       isset($map->name) && is_string($map->name) ? $map->name : '',
@@ -64,7 +64,7 @@ class GitRemote implements \JsonSerializable {
    * Gets the URL of this remote.
    * @return UriInterface The remote's URL.
    */
-  public function getUrl() {
+  public function getUrl(): ?UriInterface {
     return $this->url;
   }
 

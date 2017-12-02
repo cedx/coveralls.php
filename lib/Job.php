@@ -79,7 +79,7 @@ class Job implements \JsonSerializable {
    * @param mixed $map A JSON map representing a job.
    * @return Job The instance corresponding to the specified JSON map, or `null` if a parsing error occurred.
    */
-  public static function fromJson($map) {
+  public static function fromJson($map): ?self {
     if (is_array($map)) $map = (object) $map;
     if (!is_object($map)) return null;
 
@@ -111,7 +111,7 @@ class Job implements \JsonSerializable {
    * Get the Git data that can be used to display more information to users.
    * @return GitData The Git data that can be used to display more information to users.
    */
-  public function getGit() {
+  public function getGit(): ?GitData {
     return $this->git;
   }
 
@@ -127,7 +127,7 @@ class Job implements \JsonSerializable {
    * Gets the timestamp of when the job ran.
    * @return \DateTime The timestamp of when the job ran.
    */
-  public function getRunAt() {
+  public function getRunAt(): ?\DateTime {
     return $this->runAt;
   }
 

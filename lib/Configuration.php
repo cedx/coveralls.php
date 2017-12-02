@@ -101,10 +101,10 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
   /**
    * Creates a new configuration from the specified YAML document.
    * @param string $document A YAML document providing configuration parameters.
-   * @return Configuration The instance corresponding to the specified YAML document, or `null` if a parsing error occurred.
+   * @return Configuration The instance corresponding to the specified YAML document.
    * @throws \InvalidArgumentException The specified document is invalid.
    */
-  public static function fromYaml(string $document) {
+  public static function fromYaml(string $document): self {
     if (!mb_strlen($document)) throw new \InvalidArgumentException('The specified YAML document is empty.');
 
     try {
@@ -189,16 +189,16 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
   /**
    * Gets the value associated to the specified key.
    * @param string $key The key to seek for.
-   * @return mixed The value, or a `null` reference is the key is not found.
+   * @return string The value, or a `null` reference is the key is not found.
    */
-  public function offsetGet($key) {
+  public function offsetGet($key): ?string {
     return $this->params[$key] ?? null;
   }
 
   /**
    * Associates a given value to the specified key.
    * @param string $key The key to seek for.
-   * @param mixed $value The new value.
+   * @param string $value The new value.
    */
   public function offsetSet($key, $value): void {
     $this->params[$key] = $value;
