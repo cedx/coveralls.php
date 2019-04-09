@@ -80,6 +80,7 @@ class ConfigurationTest extends TestCase {
 
     // It should throw an exception with a non-object value.
     $this->expectException(\InvalidArgumentException::class);
+    $this->expectExceptionMessage('The specified YAML document is invalid.');
     Configuration::fromYaml('foo');
   }
 

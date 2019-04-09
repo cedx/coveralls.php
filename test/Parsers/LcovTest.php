@@ -34,5 +34,10 @@ class LcovTest extends TestCase {
     assertThat($files[2]->getName(), equalTo('src/GitCommit.php'));
     assertThat($files[2]->getSourceDigest(), logicalNot(isEmpty()));
     assertThat(array_intersect($subset, $files[2]->getCoverage()->getArrayCopy()), equalTo($subset));
+
+    // It should throw RuntimeException when parsing LCOV reports with invalid source file.
+    $this->expectException(\RuntimeException::class);
+    $this->expectExceptionMessage('Source file not found: src/Http/NotFound.php');
+    Lcov::parseReport((string) file_get_contents('test/fixtures/invalid_lcov.info'));
   }
 }
