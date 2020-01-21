@@ -1,6 +1,7 @@
 name: build
 on:
   push:
+  pull_request:
   schedule:
     - cron: '0 0 1 * *'
 jobs:
@@ -17,6 +18,11 @@ jobs:
         run: |
           php --version
           composer --version
+      - name: Debug if needed
+        run: |
+          if [[ "$DEBUG" == "true" ]]; then env && cat $GITHUB_EVENT_PATH; fi
+        env:
+          DEBUG: $ {{secrets.DEBUG}}
       - name: Fetch sources
         uses: actions/checkout@master
       - name: Install dependencies
