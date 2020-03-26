@@ -20,7 +20,7 @@ jobs:
           composer --version
       - name: Debug if needed
         run: |
-          if [[ "$DEBUG" == "true" ]]; then env && cat $GITHUB_EVENT_PATH; fi
+          if [[ "$DEBUG" == "true" ]]; then env; fi
         env:
           DEBUG: $ {{secrets.DEBUG}}
       - name: Fetch sources
