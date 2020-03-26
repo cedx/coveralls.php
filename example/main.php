@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-use Coveralls\Http\{Client, ClientException};
+use Coveralls\{Client, ClientException};
 
 /** Uploads a coverage report. */
 function main(): void {

@@ -2,7 +2,7 @@
 <coverage generated="1486026064">
   <project timestamp="1486026064">
     <package name="coveralls">
-      <file name="lib/Http/Client.php">
+      <file name="lib/Client.php">
         <class name="Client" namespace="coveralls">
           <metrics complexity="41" methods="11" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="42" coveredstatements="23" elements="53" coveredelements="27"/>
         </class>

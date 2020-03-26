@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-use Robo\{Result, ResultData, Tasks};
+use Robo\{Result, Tasks};
 
 // Load the dependencies.
 require_once __DIR__.'/vendor/autoload.php';
@@ -17,17 +17,15 @@ class RoboFile extends Tasks {
 
   /**
    * Builds the project.
-   * @return ResultData The task result.
+   * @return Result The task result.
    */
-  function build(): ResultData {
-    $version = $this->taskSemVer('.semver')->setFormat('%M.%m.%p')->__toString();
-    $success = (bool) @file_put_contents('lib/Cli/version.g.php', implode(PHP_EOL, [
-      '<?php declare(strict_types=1);', '',
-      '// The version number of the package.',
-      "return \$packageVersion = '$version';", ''
-    ]));
-
-    return new ResultData($success ? ResultData::EXITCODE_OK : ResultData::EXITCODE_ERROR);
+  function build(): Result {
+    $version = $this->taskSemVer()->setFormat('%M.%m.%p')->__toString();
+    return $this->taskWriteToFile('lib/Cli/version.g.php')
+      ->line('<?php declare(strict_types=1);')->line('')
+      ->line('// The version number of the package.')
+      ->line("return \$packageVersion = '$version';")
+      ->run();
   }
 
   /**
@@ -54,10 +52,12 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function doc(): Result {
+    $phpdoc = PHP_OS_FAMILY == 'Windows' ? 'php '.escapeshellarg('C:\Program Files\PHP\share\phpDocumentor.phar') : 'phpdoc';
     return $this->collectionBuilder()
       ->addTask($this->taskFilesystemStack()
         ->copy('CHANGELOG.md', 'doc/about/changelog.md')
         ->copy('LICENSE.md', 'doc/about/license.md'))
+      ->addTask($this->taskExec("$phpdoc --config=etc/phpdoc.xml"))
       ->addTask($this->taskExec('mkdocs build --config-file=doc/mkdocs.yaml'))
       ->addTask($this->taskFilesystemStack()
         ->remove(['doc/about/changelog.md', 'doc/about/license.md', 'web/mkdocs.yaml']))
@@ -104,6 +104,11 @@ class RoboFile extends Tasks {
    * @return Result The task result.
    */
   function version(string $component = 'patch'): Result {
-    return $this->taskSemVer('.semver')->increment($component)->run();
+    $semverTask = $this->taskSemVer()->increment($component);
+    $version = $semverTask->setFormat('%M.%m.%p')->__toString();
+    return $this->collectionBuilder()
+      ->addTask($semverTask)
+      ->addTask($this->taskReplaceInFile('etc/phpdoc.xml')->regex('/version number="\d+(\.\d+){2}"/')->to("version number=\"$version\""))
+      ->run();
   }
 }

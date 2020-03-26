@@ -12,7 +12,7 @@ abstract class Lcov {
    * Parses the specified coverage report.
    * @param string $report A coverage report in LCOV format.
    * @return Job The job corresponding to the specified coverage report.
-   * @throws \RuntimeException A source file was not found.
+   * @throws \RuntimeException A source file is not found or empty.
    */
   static function parseReport(string $report): Job {
     $records = Report::fromCoverage($report)->getRecords()->getArrayCopy();
@@ -21,7 +21,7 @@ abstract class Lcov {
     return new Job(array_map(function(Record $record) use ($workingDir) {
       $sourceFile = $record->getSourceFile();
       $source = (string) @file_get_contents($sourceFile);
-      if (!mb_strlen($source)) throw new \RuntimeException("Source file not found: $sourceFile");
+      if (!mb_strlen($source)) throw new \RuntimeException("Source file not found or empty: $sourceFile");
 
       $lineCoverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
       if ($lines = $record->getLines()) foreach ($lines->getData() as $lineData) {

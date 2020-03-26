@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use GuzzleHttp\Psr7\{Uri};
+use Nyholm\Psr7\{Uri};
 use Psr\Http\Message\{UriInterface};
 
 /** Represents a Git remote repository. */

@@ -8,13 +8,13 @@ abstract class Surf {
 
   /**
    * Gets the configuration parameters from the environment.
-   * @param array<string, string|null> $environment An array providing environment variables.
+   * @param array<string, string|null> $env An array providing environment variables.
    * @return Configuration The configuration parameters.
    */
-  static function getConfiguration(array $environment): Configuration {
+  static function getConfiguration(array $env): Configuration {
     return new Configuration([
-      'commit_sha' => $environment['SURF_SHA1'] ?? null,
-      'service_branch' => $environment['SURF_REF'] ?? null,
+      'commit_sha' => $env['SURF_SHA1'] ?? null,
+      'service_branch' => $env['SURF_REF'] ?? null,
       'service_name' => 'surf'
     ]);
   }

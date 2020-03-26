@@ -1,79 +1,75 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use function PHPUnit\Expect\{expect, it};
 use PHPUnit\Framework\{TestCase};
+use function PHPUnit\Framework\{assertThat, countOf, equalTo, isEmpty, isFalse, isInstanceOf, isNull, isTrue};
 
 /** @testdox Coveralls\Job */
 class JobTest extends TestCase {
 
   /** @testdox ::fromJson() */
   function testFromJson(): void {
-    it('should return an instance with default values for an empty map', function() {
-      $job = Job::fromJson(new \stdClass);
-      expect($job->getGit())->to->be->null;
-      expect($job->isParallel())->to->be->false;
-      expect($job->getRepoToken())->to->be->empty;
-      expect($job->getRunAt())->to->be->null;
-      expect($job->getSourceFiles())->to->be->empty;
-    });
+    // It should return an instance with default values for an empty map.
+    $job = Job::fromJson(new \stdClass);
+    assertThat($job->getGit(), isNull());
+    assertThat($job->isParallel(), isFalse());
+    assertThat($job->getRepoToken(), isEmpty());
+    assertThat($job->getRunAt(), isNull());
+    assertThat($job->getSourceFiles(), isEmpty());
 
-    it('should return an initialized instance for a non-empty map', function() {
-      $job = Job::fromJson((object) [
-        'git' => (object) ['branch' => 'develop'],
-        'parallel' => true,
-        'repo_token' => 'yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt',
-        'run_at' => '2017-01-29T03:43:30+01:00',
-        'source_files' => [
-          (object) ['name' => '/home/cedx/coveralls.php']
-        ]
-      ]);
+    // It should return an initialized instance for a non-empty map.
+    $job = Job::fromJson((object) [
+      'git' => (object) ['branch' => 'develop'],
+      'parallel' => true,
+      'repo_token' => 'yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt',
+      'run_at' => '2017-01-29T03:43:30+01:00',
+      'source_files' => [
+        (object) ['name' => '/home/cedx/coveralls.php']
+      ]
+    ]);
 
-      expect($job->isParallel())->to->be->true;
-      expect($job->getRepoToken())->to->equal('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt');
+    assertThat($job->isParallel(), isTrue());
+    assertThat($job->getRepoToken(), equalTo('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt'));
 
-      /** @var GitData $git */
-      $git = $job->getGit();
-      expect($git->getBranch())->to->equal('develop');
+    /** @var GitData $git */
+    $git = $job->getGit();
+    assertThat($git->getBranch(), equalTo('develop'));
 
-      /** @var \DateTimeInterface $runAt */
-      $runAt = $job->getRunAt();
-      expect($runAt->format('c'))->to->equal('2017-01-29T03:43:30+01:00');
+    /** @var \DateTimeInterface $runAt */
+    $runAt = $job->getRunAt();
+    assertThat($runAt->format('c'), equalTo('2017-01-29T03:43:30+01:00'));
 
-      $sourceFiles = $job->getSourceFiles();
-      expect($sourceFiles)->to->have->lengthOf(1);
+    $sourceFiles = $job->getSourceFiles();
+    assertThat($sourceFiles, countOf(1));
 
-      /** @var SourceFile $sourceFile */
-      $sourceFile = $sourceFiles[0];
-      expect($sourceFile)->to->be->an->instanceOf(SourceFile::class);
-      expect($sourceFile->getName())->to->equal('/home/cedx/coveralls.php');
-    });
+    /** @var SourceFile $sourceFile */
+    $sourceFile = $sourceFiles[0];
+    assertThat($sourceFile, isInstanceOf(SourceFile::class));
+    assertThat($sourceFile->getName(), equalTo('/home/cedx/coveralls.php'));
   }
 
   /** @testdox ->jsonSerialize() */
   function testJsonSerialize(): void {
-    it('should return a map with default values for a newly created instance', function() {
-      $map = (new Job)->jsonSerialize();
-      expect(get_object_vars($map))->to->have->lengthOf(1);
-      expect($map->source_files)->to->be->empty;
-    });
+    // It should return a map with default values for a newly created instance.
+    $map = (new Job)->jsonSerialize();
+    assertThat(get_object_vars($map), countOf(1));
+    assertThat($map->source_files, isEmpty());
 
-    it('should return a non-empty map for an initialized instance', function() {
-      $map = (new Job([new SourceFile('/home/cedx/coveralls.php', '')]))
-        ->setGit(new GitData(new GitCommit(''), 'develop'))
-        ->setParallel(true)
-        ->setRepoToken('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt')
-        ->setRunAt(new \DateTimeImmutable('2017-01-29T03:43:30+01:00'))
-        ->jsonSerialize();
+    // It should return a non-empty map for an initialized instance.
+    $map = (new Job([new SourceFile('/home/cedx/coveralls.php', '')]))
+      ->setGit(new GitData(new GitCommit(''), 'develop'))
+      ->setParallel(true)
+      ->setRepoToken('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt')
+      ->setRunAt(new \DateTimeImmutable('2017-01-29T03:43:30+01:00'))
+      ->jsonSerialize();
 
-      expect(get_object_vars($map))->to->have->lengthOf(5);
-      expect($map->parallel)->to->be->true;
-      expect($map->repo_token)->to->equal('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt');
-      expect($map->run_at)->to->equal('2017-01-29T03:43:30+01:00');
+    assertThat(get_object_vars($map), countOf(5));
+    assertThat($map->parallel, isTrue());
+    assertThat($map->repo_token, equalTo('yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt'));
+    assertThat($map->run_at, equalTo('2017-01-29T03:43:30+01:00'));
 
-      expect($map->git->branch)->to->equal('develop');
-      expect($map->source_files)->to->have->lengthOf(1);
-      expect($map->source_files[0]->name)->to->equal('/home/cedx/coveralls.php');
-    });
+    assertThat($map->git->branch, equalTo('develop'));
+    assertThat($map->source_files, countOf(1));
+    assertThat($map->source_files[0]->name, equalTo('/home/cedx/coveralls.php'));
   }
 }

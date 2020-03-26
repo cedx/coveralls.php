@@ -1,12 +1,12 @@
 path: blob/master
-source: lib/Http/Client.php
+source: lib/Client.php
 
 # Application programming interface
-The hard way. Use the `Coveralls\Http\Client` class to upload your coverage reports:
+The hard way. Use the `Coveralls\Client` class to upload your coverage reports:
 
 ```php
 <?php
-use Coveralls\Http\{Client, ClientException};
+use Coveralls\{Client, ClientException};
 
 function main(): void {
   try {
@@ -22,18 +22,18 @@ function main(): void {
 }
 ```
 
-The `Client::upload()` method throws an [`InvalidArgumentException`](https://www.php.net/manual/en/class.invalidargumentexception.php)
-if the input report is invalid. It throws a `Coveralls\Http\ClientException` if any error occurred while uploading the report.
+The `Client->upload()` method throws an [`InvalidArgumentException`](https://www.php.net/manual/en/class.invalidargumentexception.php)
+if the input report is invalid. It throws a `Coveralls\ClientException` if any error occurred while uploading the report.
 
 ## Client events
-The `Coveralls\Http\Client` class is a [`League\Event\Emitter`](https://event.thephpleague.com/2.0/emitter/basic-usage) that triggers some events during its life cycle.
+The `Coveralls\Client` class is a [`League\Event\Emitter`](https://event.thephpleague.com/2.0/emitter/basic-usage) that triggers some events during its life cycle.
 
 ### The `Client::eventRequest` event
 Emitted every time a request is made to the remote service:
 
 ```php
 <?php
-use Coveralls\Http\{Client, RequestEvent};
+use Coveralls\{Client, RequestEvent};
 
 function main(): void {
   $client = new Client;
@@ -48,7 +48,7 @@ Emitted every time a response is received from the remote service:
 
 ```php
 <?php
-use Coveralls\Http\{Client, ResponseEvent};
+use Coveralls\{Client, ResponseEvent};
 
 function main(): void {
   $client = new Client;

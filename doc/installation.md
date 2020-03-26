@@ -11,10 +11,10 @@ You can verify if you're already good to go with the following commands:
 
 ```shell
 php --version
-# PHP 7.4.1 (cli) (built: Dec 17 2019 19:23:59) ( NTS Visual C++ 2017 x64 )
+# PHP 7.4.4 (cli) (built: Mar 17 2020 13:49:13) ( NTS Visual C++ 2017 x64 )
 
 composer --version
-# Composer version 1.9.1 2019-11-01 17:20:17
+# Composer version 1.10.1 2020-03-13 20:34:27
 ```
 
 !!! info
@@ -35,5 +35,5 @@ Now in your [PHP](https://www.php.net) code, you can use:
 
 ```php
 <?php
-use Coveralls\Http\{Client, ClientException};
+use Coveralls\{Client, ClientException};
 ```
