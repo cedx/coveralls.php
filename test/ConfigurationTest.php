@@ -70,21 +70,11 @@ class ConfigurationTest extends TestCase {
   function testGetIterator(): void {
     // It should return a done iterator if configuration is empty.
     $iterator = (new Configuration)->getIterator();
-    assertThat($iterator->valid(), isFalse());
+    assertThat(iterator_to_array($iterator), isEmpty());
 
     // It should return a value iterator if configuration is not empty.
     $iterator = (new Configuration(['foo' => 'bar', 'bar' => 'baz']))->getIterator();
-    assertThat($iterator->valid(), isTrue());
-
-    assertThat($iterator->key(), equalTo('foo'));
-    assertThat($iterator->current(), equalTo('bar'));
-    $iterator->next();
-
-    assertThat($iterator->key(), equalTo('bar'));
-    assertThat($iterator->current(), equalTo('baz'));
-    $iterator->next();
-
-    assertThat($iterator->valid(), isFalse());
+    assertThat(iterator_to_array($iterator), equalTo(['foo' => 'bar', 'bar' => 'baz']));
   }
 
   /** @testdox ->getKeys() */

@@ -15,13 +15,15 @@ abstract class Lcov {
    * @throws \RuntimeException A source file is not found or empty.
    */
   static function parseReport(string $report): Job {
-    $records = Report::fromCoverage($report)->getRecords()->getArrayCopy();
+    $records = (array) Report::fromCoverage($report)->getRecords();
     $workingDir = (string) getcwd();
 
     return new Job(array_map(function(Record $record) use ($workingDir) {
-      $sourceFile = $record->getSourceFile();
-      $source = (string) @file_get_contents($sourceFile);
-      if (!mb_strlen($source)) throw new \RuntimeException("Source file not found or empty: $sourceFile");
+      $sourceFile = new \SplFileObject($record->getSourceFile());
+      if (!$sourceFile->isFile()) throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
+
+      $source = (string) $sourceFile->fread($sourceFile->getSize());
+      if (!mb_strlen($source)) throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
       $lineCoverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
       if ($lines = $record->getLines()) foreach ($lines->getData() as $lineData) {
@@ -41,8 +43,11 @@ abstract class Lcov {
         );
       }
 
-      $filename = Path::isAbsolute($sourceFile) ? Path::makeRelative($sourceFile, $workingDir) : Path::canonicalize($sourceFile);
-      return new SourceFile(str_replace('/', DIRECTORY_SEPARATOR, $filename), md5($source), $source, $lineCoverage->toArray(), $branchCoverage);
+      $filename = Path::isAbsolute($sourceFile->getPathname())
+        ? Path::makeRelative($sourceFile->getPathname(), $workingDir)
+        : Path::canonicalize($sourceFile->getPathname());
+
+      return new SourceFile(str_replace('/', DIRECTORY_SEPARATOR, $filename), md5($source), $source, (array) $lineCoverage, $branchCoverage);
     }, $records));
   }
 }

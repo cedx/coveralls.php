@@ -117,7 +117,8 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
     $defaults = static::fromEnvironment();
 
     try {
-      $defaults->merge(static::fromYaml((string) @file_get_contents($coverallsFile)));
+      $file = new \SplFileObject($coverallsFile);
+      if ($file->isFile()) $defaults->merge(static::fromYaml((string) $file->fread($file->getSize())));
       return $defaults;
     }
 
@@ -136,9 +137,9 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 
   /**
    * Returns a new iterator that allows iterating the elements of this configuration.
-   * @return \Iterator<string, string|null> An iterator for the elements of this configuration.
+   * @return \Traversable<string, string|null> An iterator for the elements of this configuration.
    */
-  function getIterator(): \Iterator {
+  function getIterator(): \Traversable {
     return new \ArrayIterator($this->params);
   }
 

@@ -1,6 +1,6 @@
 TN:Example
 
-SF:lib/Client.php
+SF:src/Client.php
 FN:4,Client::upload
 FNDA:2,Client::upload
 FNF:1
@@ -13,7 +13,7 @@ LF:4
 LH:4
 end_of_record
 
-SF:lib/Configuration.php
+SF:src/Configuration.php
 FN:5,Configuration::fromEnvironment
 FNDA:4,Configuration::fromEnvironment
 FNF:1
@@ -37,7 +37,7 @@ LF:9
 LH:9
 end_of_record
 
-SF:lib/GitCommit.php
+SF:src/GitCommit.php
 FN:5,GitCommit::jsonSerialize
 FNDA:2,GitCommit::jsonSerialize
 FNF:1

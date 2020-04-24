@@ -25,9 +25,11 @@ abstract class Clover {
     return new Job(array_map(function(\SimpleXMLElement $file) use ($workingDir) {
       if (!isset($file['name'])) throw new \InvalidArgumentException("Invalid file data: {$file->asXML()}");
 
-      $sourceFile = (string) $file['name'];
-      $source = (string) @file_get_contents($sourceFile);
-      if (!mb_strlen($source)) throw new \RuntimeException("Source file not found: $sourceFile");
+      $sourceFile = new \SplFileObject((string) $file['name']);
+      if (!$sourceFile->isFile()) throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
+
+      $source = (string) $sourceFile->fread($sourceFile->getSize());
+      if (!mb_strlen($source)) throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
       $coverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
       foreach ($file->line as $line) {
@@ -36,8 +38,11 @@ abstract class Clover {
         $coverage[$lineNumber - 1] = max(0, (int) $line['count']);
       }
 
-      $filename = Path::isAbsolute($sourceFile) ? Path::makeRelative($sourceFile, $workingDir) : Path::canonicalize($sourceFile);
-      return new SourceFile(str_replace('/', DIRECTORY_SEPARATOR, $filename), md5($source), $source, $coverage->toArray());
+      $filename = Path::isAbsolute($sourceFile->getPathname())
+        ? Path::makeRelative($sourceFile->getPathname(), $workingDir)
+        : Path::canonicalize($sourceFile->getPathname());
+
+      return new SourceFile(str_replace('/', DIRECTORY_SEPARATOR, $filename), md5($source), $source, (array) $coverage);
     }, $files));
   }
 }

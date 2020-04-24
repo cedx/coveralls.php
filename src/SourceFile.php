@@ -96,31 +96,11 @@ class SourceFile implements \JsonSerializable {
    */
   function jsonSerialize(): \stdClass {
     $map = new \stdClass;
-    $map->coverage = $this->getCoverage()->getArrayCopy();
+    $map->coverage = (array) $this->getCoverage();
     $map->name = $this->getName();
     $map->source_digest = $this->getSourceDigest();
-    if (count($branches = $this->getBranches())) $map->branches = $branches->getArrayCopy();
+    if (count($branches = $this->getBranches())) $map->branches = (array) $branches;
     if (mb_strlen($source = $this->getSource())) $map->source = $source;
     return $map;
-  }
-
-  /**
-   * Gets the branch data for this file's job.
-   * @param array<int|null> $value The branch data.
-   * @return $this This instance.
-   */
-  function setBranches(array $value): self {
-    $this->branches->exchangeArray($value);
-    return $this;
-  }
-
-  /**
-   * Gets the coverage data for this file's job.
-   * @param int[] $value The coverage data.
-   * @return $this This instance.
-   */
-  function setCoverage(array $value): self {
-    $this->coverage->exchangeArray($value);
-    return $this;
   }
 }

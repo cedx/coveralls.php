@@ -1,14 +1,14 @@
 # See also
 
 ## Development
-- [API reference](https://dev.belin.io/coveralls.php/api)
+- [API reference](https://api.belin.io/coveralls.php)
 - [Packagist package](https://packagist.org/packages/cedx/coveralls)
-- [Submit an issue](https://github.com/cedx/coveralls.php/issues)
+- [Submit an issue](https://git.belin.io/cedx/coveralls.php/issues)
 
 ## Testing
 - [Continuous integration](https://github.com/cedx/coveralls.php/actions)
 - [Code coverage](https://coveralls.io/github/cedx/coveralls.php/)
 
 ## Other implementations
-- Dart: [Coveralls for Dart](https://dev.belin.io/coveralls.dart)
-- JavaScript: [Coveralls for JS](https://dev.belin.io/coveralls.js)
+- Dart: [Coveralls for Dart](https://docs.belin.io/coveralls.dart)
+- JavaScript: [Coveralls for JS](https://docs.belin.io/coveralls.js)

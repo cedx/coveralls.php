@@ -1,5 +1,7 @@
-path: blob/master
-source: lib/Client.php
+---
+path: src/branch/master
+source: src/Client.php
+---
 
 # Application programming interface
 The hard way. Use the `Coveralls\Client` class to upload your coverage reports:
@@ -10,7 +12,7 @@ use Coveralls\{Client, ClientException};
 
 function main(): void {
   try {
-    $coverage = @file_get_contents('/path/to/coverage.report');
+    $coverage = file_get_contents('/path/to/coverage.report');
     (new Client)->upload($coverage);
     echo 'The report was sent successfully.';
   }
@@ -26,7 +28,7 @@ The `Client->upload()` method throws an [`InvalidArgumentException`](https://www
 if the input report is invalid. It throws a `Coveralls\ClientException` if any error occurred while uploading the report.
 
 ## Client events
-The `Coveralls\Client` class is a [`League\Event\Emitter`](https://event.thephpleague.com/2.0/emitter/basic-usage) that triggers some events during its life cycle.
+The `Coveralls\Client` class is an [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that triggers some events during its life cycle.
 
 ### The `Client::eventRequest` event
 Emitted every time a request is made to the remote service:

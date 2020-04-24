@@ -1,5 +1,11 @@
 # Changelog
 
+## Version [13.0.0](https://github.com/cedx/coveralls.php/compare/v12.0.0...v13.0.0)
+- Breaking change: moved all classes to the `Coveralls` root namespace.
+- Breaking change: replaced [PHP League Event](https://event.thephpleague.com) library by [Symfony EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) for event handling.
+- Replaced the [Guzzle HTTP client](http://docs.guzzlephp.org) by the [Symfony one](https://symfony.com/doc/current/components/http_client.html).
+- Updated the package dependencies.
+
 ## Version [12.0.0](https://github.com/cedx/coveralls.php/compare/v11.2.0...v12.0.0)
 - Breaking change: raised the required [PHP](https://www.php.net) version.
 - Breaking change: using PHP 7.4 features, like arrow functions and typed properties.

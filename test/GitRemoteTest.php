@@ -16,12 +16,12 @@ class GitRemoteTest extends TestCase {
     assertThat($remote->getUrl(), isNull());
 
     // It should return an initialized instance for a non-empty map.
-    $remote = GitRemote::fromJson((object) ['name' => 'origin', 'url' => 'git@github.com:cedx/coveralls.php.git']);
+    $remote = GitRemote::fromJson((object) ['name' => 'origin', 'url' => 'git@git.belin.io:cedx/coveralls.php.git']);
     assertThat($remote->getName(), equalTo('origin'));
-    assertThat((string) $remote->getUrl(), equalTo('ssh://git@github.com/cedx/coveralls.php.git'));
+    assertThat((string) $remote->getUrl(), equalTo('ssh://git@git.belin.io/cedx/coveralls.php.git'));
 
-    $remote = GitRemote::fromJson((object) ['name' => 'origin', 'url' => 'https://github.com/cedx/coveralls.php.git']);
-    assertThat((string) $remote->getUrl(), equalTo('https://github.com/cedx/coveralls.php.git'));
+    $remote = GitRemote::fromJson((object) ['name' => 'origin', 'url' => 'https://git.belin.io/cedx/coveralls.php.git']);
+    assertThat((string) $remote->getUrl(), equalTo('https://git.belin.io/cedx/coveralls.php.git'));
   }
 
   /** @testdox ->jsonSerialize() */
@@ -33,12 +33,12 @@ class GitRemoteTest extends TestCase {
     assertThat($map->url, isNull());
 
     // It should return a non-empty map for an initialized instance.
-    $map = (new GitRemote('origin', 'git@github.com:cedx/coveralls.php.git'))->jsonSerialize();
+    $map = (new GitRemote('origin', 'git@git.belin.io:cedx/coveralls.php.git'))->jsonSerialize();
     assertThat(get_object_vars($map), countOf(2));
     assertThat($map->name, equalTo('origin'));
-    assertThat($map->url, equalTo('ssh://git@github.com/cedx/coveralls.php.git'));
+    assertThat($map->url, equalTo('ssh://git@git.belin.io/cedx/coveralls.php.git'));
 
-    $map = (new GitRemote('origin', new Uri('https://github.com/cedx/coveralls.php.git')))->jsonSerialize();
-    assertThat($map->url, equalTo('https://github.com/cedx/coveralls.php.git'));
+    $map = (new GitRemote('origin', new Uri('https://git.belin.io/cedx/coveralls.php.git')))->jsonSerialize();
+    assertThat($map->url, equalTo('https://git.belin.io/cedx/coveralls.php.git'));
   }
 }

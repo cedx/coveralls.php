@@ -11,13 +11,16 @@ use Which\{FinderException};
 use function Which\{which};
 
 /** Uploads code coverage reports to the [Coveralls](https://coveralls.io) service. */
-class Client {
+class Client extends EventDispatcher {
 
   /** @var string The URL of the default API end point. */
   const defaultEndPoint = 'https://coveralls.io/api/v1/';
 
-  /** @var EventDispatcher The event dispatcher. */
-  private EventDispatcher $dispatcher;
+  /** @var string An event that is triggered when a request is made to the remote service. */
+  const eventRequest = RequestEvent::class;
+
+  /** @var string An event that is triggered when a response is received from the remote service. */
+  const eventResponse = ResponseEvent::class;
 
   /** @var UriInterface The URL of the API end point. */
   private UriInterface $endPoint;
@@ -30,7 +33,7 @@ class Client {
    * @param UriInterface|null $endPoint The URL of the API end point.
    */
   function __construct(?UriInterface $endPoint = null) {
-    $this->dispatcher = new EventDispatcher;
+    parent::__construct();
     $this->http = new Psr18Client;
     $this->endPoint = $endPoint ?? $this->http->createUri(static::defaultEndPoint);
   }
@@ -41,22 +44,6 @@ class Client {
    */
   function getEndPoint(): UriInterface {
     return $this->endPoint;
-  }
-
-  /**
-   * Subscribes to the `request` events.
-   * @param callable $listener The listener to register.
-   */
-  function onRequest(callable $listener): void {
-    $this->dispatcher->addListener(RequestEvent::class, $listener);
-  }
-
-  /**
-   * Subscribes to the `response` events.
-   * @param callable $listener The listener to register.
-   */
-  function onResponse(callable $listener): void {
-    $this->dispatcher->addListener(ResponseEvent::class, $listener);
   }
 
   /**
@@ -104,22 +91,21 @@ class Client {
       throw new \InvalidArgumentException('The job does not meet the requirements.');
 
     $endPoint = $this->getEndPoint();
-    $basePath = rtrim($endPoint->getPath(), '/');
-    $uri = $endPoint->withPath("$basePath/jobs");
-
-    $jsonFile = new DataPart((string) json_encode($job, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE), 'coveralls.json', 'application/json');
-    $formData = new FormDataPart(['json_file' => $jsonFile]);
+    $uri = $endPoint->withPath("{$endPoint->getPath()}jobs");
 
     try {
+      $jsonFile = json_encode($job, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+      $formData = new FormDataPart(['json_file' => new DataPart($jsonFile, 'coveralls.json')]);
+
       $request = ($this->http->createRequest('POST', $uri))->withBody($this->http->createStream($formData->bodyToString()));
-      foreach ($formData->getPreparedHeaders()->toArray() as $name => $value) $request = $request->withHeader($name, $value);
+      foreach ($formData->getPreparedHeaders()->all() as $header) {
+        /** @var \Symfony\Component\Mime\Header\HeaderInterface $header */
+        $request = $request->withHeader($header->getName(), $header->getBodyAsString());
+      }
 
-      // TODO remove debug
-      var_dump($request);
-      $this->dispatcher->dispatch(new RequestEvent($request));
-
+      $this->dispatch(new RequestEvent($request));
       $response = $this->http->sendRequest($request);
-      $this->dispatcher->dispatch(new ResponseEvent($response, $request));
+      $this->dispatch(new ResponseEvent($response, $request));
     }
 
     catch (\Throwable $e) {

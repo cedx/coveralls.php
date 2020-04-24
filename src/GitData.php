@@ -20,8 +20,8 @@ class GitData implements \JsonSerializable {
    * @param GitRemote[] $remotes The remote repositories.
    */
   function __construct(?GitCommit $commit, string $branch = '', array $remotes = []) {
+    $this->branch = $branch;
     $this->commit = $commit;
-    $this->setBranch($branch);
     $this->remotes = new \ArrayObject($remotes);
   }
 
@@ -102,7 +102,7 @@ class GitData implements \JsonSerializable {
     return (object) [
       'branch' => $this->getBranch(),
       'head' => ($commit = $this->getCommit()) ? $commit->jsonSerialize() : null,
-      'remotes' => array_map(fn(GitRemote $item) => $item->jsonSerialize(), $this->getRemotes()->getArrayCopy())
+      'remotes' => array_map(fn(GitRemote $item) => $item->jsonSerialize(), (array) $this->getRemotes())
     ];
   }
 

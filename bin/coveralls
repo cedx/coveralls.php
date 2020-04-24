@@ -5,12 +5,12 @@ use Coveralls\Cli\{Command};
 use Symfony\Component\Console\{Application};
 
 // Load the dependencies.
-$autoload = realpath(__DIR__.'/../../../autoload.php');
+$autoloader = new SplFileInfo(__DIR__.'/../../../autoload.php');
 $rootPath = dirname(__DIR__);
-require_once $autoload ? $autoload : "$rootPath/vendor/autoload.php";
+require_once $autoloader->isFile() ? $autoloader->getPathname() : "$rootPath/vendor/autoload.php";
 
 // Start the application.
-$application = new Application('Coveralls.php', require "$rootPath/lib/Cli/version.g.php");
+$application = new Application('Coveralls.php', require "$rootPath/src/Cli/version.g.php");
 $command = (new Command)->setProcessTitle($application->getName());
 $application->add($command);
 $application->setDefaultCommand($command->getName(), true)->run();

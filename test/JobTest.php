@@ -43,7 +43,7 @@ class JobTest extends TestCase {
     assertThat($sourceFiles, countOf(1));
 
     /** @var SourceFile $sourceFile */
-    $sourceFile = $sourceFiles[0];
+    [$sourceFile] = $sourceFiles;
     assertThat($sourceFile, isInstanceOf(SourceFile::class));
     assertThat($sourceFile->getName(), equalTo('/home/cedx/coveralls.php'));
   }

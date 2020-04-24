@@ -10,38 +10,39 @@ class LcovTest extends TestCase {
 
   /** @testdox ::parseReport() */
   function testParseReport(): void {
+    $report = new \SplFileObject('test/fixtures/lcov.info');
+
     // It should properly parse LCOV reports.
-    $job = Lcov::parseReport((string) @file_get_contents('test/fixtures/lcov.info'));
+    $job = Lcov::parseReport((string) $report->fread($report->getSize()));
     $files = $job->getSourceFiles();
+    [$firstFile, $secondFile, $thirdFile] = $files;
     assertThat($files, countOf(3));
 
-    /** @var SourceFile $file */
-    $file = $files[0];
+    /** @var SourceFile $firstFile */
     $subset = [null, 2, 2, 2, 2, null];
-    assertThat($file, isInstanceOf(SourceFile::class));
-    assertThat($file->getBranches(), isEmpty());
-    assertThat(array_intersect($subset, $file->getCoverage()->getArrayCopy()), equalTo($subset));
-    assertThat($file->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'lib/Client.php')));
-    assertThat($file->getSourceDigest(), logicalNot(isEmpty()));
+    assertThat($firstFile, isInstanceOf(SourceFile::class));
+    assertThat($firstFile->getBranches(), isEmpty());
+    assertThat(array_intersect($subset, (array) $firstFile->getCoverage()), equalTo($subset));
+    assertThat($firstFile->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'src/Client.php')));
+    assertThat($firstFile->getSourceDigest(), logicalNot(isEmpty()));
 
-    /** @var SourceFile $file */
-    $file = $files[1];
+    /** @var SourceFile $secondFile */
     $subset = [null, 4, 4, 2, 2, 4, 2, 2, 4, 4, null];
-    assertThat($file->getBranches()->getArrayCopy(), equalTo([8, 0, 0, 2, 8, 0, 1, 2, 11, 0, 0, 2, 11, 0, 1, 2]));
-    assertThat(array_intersect($subset, $file->getCoverage()->getArrayCopy()), equalTo($subset));
-    assertThat($file->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'lib/Configuration.php')));
-    assertThat($file->getSourceDigest(), logicalNot(isEmpty()));
+    assertThat((array) $secondFile->getBranches(), equalTo([8, 0, 0, 2, 8, 0, 1, 2, 11, 0, 0, 2, 11, 0, 1, 2]));
+    assertThat(array_intersect($subset, (array) $secondFile->getCoverage()), equalTo($subset));
+    assertThat($secondFile->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'src/Configuration.php')));
+    assertThat($secondFile->getSourceDigest(), logicalNot(isEmpty()));
 
-    /** @var SourceFile $file */
-    $file = $files[2];
+    /** @var SourceFile $thirdFile */
     $subset = [null, 2, 2, 2, 2, 2, 0, 0, 2, 2, null];
-    assertThat($file->getBranches()->getArrayCopy(), equalTo([8, 0, 0, 2, 8, 0, 1, 0, 11, 0, 0, 0, 11, 0, 1, 2]));
-    assertThat(array_intersect($subset, $file->getCoverage()->getArrayCopy()), equalTo($subset));
-    assertThat($file->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'lib/GitCommit.php')));
-    assertThat($file->getSourceDigest(), logicalNot(isEmpty()));
+    assertThat((array) $thirdFile->getBranches(), equalTo([8, 0, 0, 2, 8, 0, 1, 0, 11, 0, 0, 0, 11, 0, 1, 2]));
+    assertThat(array_intersect($subset, (array) $thirdFile->getCoverage()), equalTo($subset));
+    assertThat($thirdFile->getName(), equalTo(str_replace('/', DIRECTORY_SEPARATOR, 'src/GitCommit.php')));
+    assertThat($thirdFile->getSourceDigest(), logicalNot(isEmpty()));
 
     // It should throw an exception when parsing reports with invalid source file.
     $this->expectException(\RuntimeException::class);
-    Lcov::parseReport((string) @file_get_contents('test/fixtures/invalid_lcov.info'));
+    $report = new \SplFileObject('test/fixtures/invalid_lcov.info');
+    Lcov::parseReport((string) $report->fread($report->getSize()));
   }
 }
