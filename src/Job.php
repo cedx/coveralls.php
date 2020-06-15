@@ -19,8 +19,8 @@ class Job implements \JsonSerializable {
 	/** @var string The secret token for the repository. */
 	private string $repoToken = "";
 
-	/** @var \DateTimeInterface|null The timestamp of when the job ran. */
-	private ?\DateTimeInterface $runAt = null;
+	/** @var \DateTimeImmutable|null The timestamp of when the job ran. */
+	private ?\DateTimeImmutable $runAt = null;
 
 	/** @var string The unique identifier of the job on the CI service. */
 	private string $serviceJobId = "";
@@ -98,9 +98,9 @@ class Job implements \JsonSerializable {
 
 	/**
 	 * Gets the timestamp of when the job ran.
-	 * @return \DateTimeInterface|null The timestamp of when the job ran.
+	 * @return \DateTimeImmutable|null The timestamp of when the job ran.
 	 */
-	function getRunAt(): ?\DateTimeInterface {
+	function getRunAt(): ?\DateTimeImmutable {
 		return $this->runAt;
 	}
 
@@ -230,7 +230,7 @@ class Job implements \JsonSerializable {
 	 * @return $this This instance.
 	 */
 	function setRunAt(?\DateTimeInterface $value): self {
-		$this->runAt = $value;
+		$this->runAt = $value ? new \DateTimeImmutable("@{$value->getTimestamp()}") : null;
 		return $this;
 	}
 

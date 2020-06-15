@@ -35,7 +35,7 @@ class JobTest extends TestCase {
 		$git = $job->getGit();
 		assertThat($git->getBranch(), equalTo("develop"));
 
-		/** @var \DateTimeInterface $runAt */
+		/** @var \DateTimeImmutable $runAt */
 		$runAt = $job->getRunAt();
 		assertThat($runAt->format("c"), equalTo("2017-01-29T03:43:30+01:00"));
 
