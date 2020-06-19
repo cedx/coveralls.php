@@ -2,8 +2,8 @@
 namespace Coveralls;
 
 use Coveralls\Services\{AppVeyor, CircleCI, Codeship, GitHub, GitLabCI, Jenkins, Semaphore, SolanoCI, Surf, TravisCI, Wercker};
-use Symfony\Component\Yaml\{Yaml};
-use Symfony\Component\Yaml\Exception\{ParseException};
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Provides access to the coverage settings.

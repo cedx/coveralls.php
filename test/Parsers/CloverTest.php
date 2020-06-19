@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Coveralls\Parsers;
 
-use Coveralls\{SourceFile};
-use PHPUnit\Framework\{TestCase};
+use Coveralls\SourceFile;
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\{assertThat, countOf, equalTo, isEmpty, isInstanceOf, logicalNot};
 
 /** @testdox Coveralls\Parsers\Clover */

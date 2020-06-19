@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use Nyholm\Psr7\{Uri};
-use PHPUnit\Framework\{TestCase};
+use Nyholm\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\{assertThat, countOf, equalTo, isEmpty, isNull};
 
 /** @testdox Coveralls\GitRemote */

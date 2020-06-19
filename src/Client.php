@@ -2,13 +2,13 @@
 namespace Coveralls;
 
 use Coveralls\Parsers\{Clover, Lcov};
-use Psr\Http\Message\{UriInterface};
-use Symfony\Component\EventDispatcher\{EventDispatcher};
-use Symfony\Component\HttpClient\{Psr18Client};
-use Symfony\Component\Mime\Part\{DataPart};
-use Symfony\Component\Mime\Part\Multipart\{FormDataPart};
-use Which\{FinderException};
-use function Which\{which};
+use Psr\Http\Message\UriInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpClient\Psr18Client;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
+use Which\FinderException;
+use function Which\which;
 
 /** Uploads code coverage reports to the [Coveralls](https://coveralls.io) service. */
 class Client extends EventDispatcher {

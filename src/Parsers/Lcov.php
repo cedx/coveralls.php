@@ -3,7 +3,7 @@ namespace Coveralls\Parsers;
 
 use Coveralls\{Job, SourceFile};
 use lcov\{Record, Report};
-use Webmozart\PathUtil\{Path};
+use Webmozart\PathUtil\Path;
 
 /** Parses [LCOV](http://ltp.sourceforge.net/coverage/lcov.php) coverage reports. */
 abstract class Lcov {

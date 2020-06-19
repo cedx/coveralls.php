@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\{assertThat, countOf, equalTo, greaterThanOrEqual, isEmpty, isFalse, isNull, isTrue};
 
 /** @testdox Coveralls\Configuration */

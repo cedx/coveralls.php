@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Coveralls\Services;
 
-use Coveralls\{Configuration};
+use Coveralls\Configuration;
 
 /** Fetches the [GitLab CI](https://gitlab.com) configuration parameters from the environment. */
 abstract class GitLabCI {

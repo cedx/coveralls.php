@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use Nyholm\Psr7\{Uri};
-use Psr\Http\Message\{UriInterface};
+use Nyholm\Psr7\Uri;
+use Psr\Http\Message\UriInterface;
 
 /** Represents a Git remote repository. */
 class GitRemote implements \JsonSerializable {

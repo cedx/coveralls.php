@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Coveralls;
 
-use PHPUnit\Framework\{TestCase};
+use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\{assertThat, countOf, equalTo, isEmpty, isInstanceOf, isNull, logicalNot, logicalOr, matchesRegularExpression};
 
 /** @testdox Coveralls\GitData */

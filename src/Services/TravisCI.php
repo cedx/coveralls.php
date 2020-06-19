@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 namespace Coveralls\Services;
 
-use Coveralls\{Configuration};
+use Coveralls\Configuration;
 
 /** Fetches the [Travis CI](https://travis-ci.com) configuration parameters from the environment. */
 abstract class TravisCI {

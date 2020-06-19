@@ -2,7 +2,7 @@
 namespace Coveralls\Parsers;
 
 use Coveralls\{Job, SourceFile};
-use Webmozart\PathUtil\{Path};
+use Webmozart\PathUtil\Path;
 
 /** Parses [Clover](https://www.atlassian.com/software/clover) coverage reports. */
 abstract class Clover {
