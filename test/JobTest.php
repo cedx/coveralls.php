@@ -22,7 +22,7 @@ class JobTest extends TestCase {
 			"git" => (object) ["branch" => "develop"],
 			"parallel" => true,
 			"repo_token" => "yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt",
-			"run_at" => "2017-01-29T03:43:30+01:00",
+			"run_at" => "2017-01-29T03:43:30Z",
 			"source_files" => [
 				(object) ["name" => "/home/cedx/coveralls.php"]
 			]
@@ -37,7 +37,7 @@ class JobTest extends TestCase {
 
 		/** @var \DateTimeImmutable $runAt */
 		$runAt = $job->getRunAt();
-		assertThat($runAt->format("c"), equalTo("2017-01-29T03:43:30+01:00"));
+		assertThat($runAt->format("c"), equalTo("2017-01-29T03:43:30+00:00"));
 
 		$sourceFiles = $job->getSourceFiles();
 		assertThat($sourceFiles, countOf(1));
@@ -60,13 +60,13 @@ class JobTest extends TestCase {
 			->setGit(new GitData(new GitCommit(""), "develop"))
 			->setParallel(true)
 			->setRepoToken("yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt")
-			->setRunAt(new \DateTimeImmutable("2017-01-29T03:43:30+01:00"))
+			->setRunAt(new \DateTimeImmutable("2017-01-29T03:43:30Z"))
 			->jsonSerialize();
 
 		assertThat(get_object_vars($map), countOf(5));
 		assertThat($map->parallel, isTrue());
 		assertThat($map->repo_token, equalTo("yYPv4mMlfjKgUK0rJPgN0AwNXhfzXpVwt"));
-		assertThat($map->run_at, equalTo("2017-01-29T03:43:30+01:00"));
+		assertThat($map->run_at, equalTo("2017-01-29T03:43:30+00:00"));
 
 		assertThat($map->git->branch, equalTo("develop"));
 		assertThat($map->source_files, countOf(1));
