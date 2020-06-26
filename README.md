@@ -1,5 +1,5 @@
 # Coveralls for PHP
-![Runtime](https://badgen.net/packagist/php/cedx/coveralls) ![Release](https://badgen.net/packagist/v/cedx/coveralls) ![License](https://badgen.net/packagist/license/cedx/coveralls) ![Downloads](https://badgen.net/packagist/dt/cedx/coveralls) ![Coverage](https://badgen.net/coveralls/c/github/cedx/coveralls.php) ![Build](https://badgen.net/github/checks/cedx/coveralls.php)
+![Runtime](https://badgen.net/packagist/php/cedx/coveralls) ![Release](https://badgen.net/packagist/v/cedx/coveralls) ![License](https://badgen.net/packagist/license/cedx/coveralls) ![Downloads](https://badgen.net/packagist/dt/cedx/coveralls) ![Coverage](https://badgen.net/coveralls/c/github/cedx/coveralls.php) ![Build](https://badgen.net/github/checks/cedx/coveralls.php/main)
 
 Send [Clover](https://www.atlassian.com/software/clover) and [LCOV](http://ltp.sourceforge.net/coverage/lcov.php) coverage reports to the [Coveralls](https://coveralls.io) service, in [PHP](https://www.php.net).
 
