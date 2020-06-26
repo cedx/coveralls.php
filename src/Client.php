@@ -122,8 +122,8 @@ class Client extends EventDispatcher {
 		if (isset($config["repo_token"])) $job->setRepoToken($config["repo_token"]);
 		else if (isset($config["repo_secret_token"])) $job->setRepoToken($config["repo_secret_token"]);
 
-		if (isset($config["parallel"])) $job->setParallel($config["parallel"] == "true");
 		if (isset($config["flag_name"])) $job->setFlagName($config["flag_name"]);
+		if (isset($config["parallel"])) $job->setParallel($config["parallel"] == "true");
 		if (isset($config["run_at"])) $job->setRunAt(new \DateTimeImmutable($config["run_at"]));
 		if (isset($config["service_job_id"])) $job->setServiceJobId($config["service_job_id"]);
 		if (isset($config["service_name"])) $job->setServiceName($config["service_name"]);

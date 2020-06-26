@@ -1,5 +1,9 @@
 # Changelog
 
+## Version [13.2.0](https://git.belin.io/cedx/coveralls.php/compare/v13.1.1...v13.2.0)
+- Merged the [pull request #10](https://github.com/cedx/coveralls.php/pull/10): added missing `flag_name` config.
+- Updated the package dependencies.
+
 ## Version [13.1.1](https://git.belin.io/cedx/coveralls.php/compare/v13.1.0...v13.1.1)
 - Fixed a regression in the [LCOV](http://ltp.sourceforge.net/coverage/lcov.php) parser.
 
