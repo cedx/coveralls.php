@@ -10,7 +10,7 @@
 		<cache>../var/phpdoc</cache>
 		<output>../doc/api</output>
 	</paths>
-	<version number="13.1.0">
+	<version number="13.2.0">
 		<api>
 			<markers>
 				<marker>TODO</marker>
