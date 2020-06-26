@@ -14,12 +14,12 @@ function main(): void {
   try {
     $coverage = file_get_contents("/path/to/coverage.report");
     (new Client)->upload($coverage);
-    echo "The report was sent successfully.";
+    print "The report was sent successfully.";
   }
 
   catch (Throwable $e) {
-    echo "An error occurred: ", $e->getMessage();
-    if ($e instanceof ClientException) echo "From: ", $e->getUri(), PHP_EOL;
+    print "An error occurred: {$e->getMessage()}" . PHP_EOL;
+    if ($e instanceof ClientException) print "From: {$e->getUri()}" . PHP_EOL;
   }
 }
 ```
@@ -39,9 +39,9 @@ use Coveralls\{Client, RequestEvent};
 
 function main(): void {
   $client = new Client;
-  $client->addListener(Client::eventRequest, function(RequestEvent $event) {
-    echo "Client request: ", $event->getRequest()->getUri();
-  });
+  $client->addListener(Client::eventRequest, fn(RequestEvent $event) =>
+    print "Client request: {$event->getRequest()->getUri()}"
+  );
 }
 ```
 
@@ -54,8 +54,8 @@ use Coveralls\{Client, ResponseEvent};
 
 function main(): void {
   $client = new Client;
-  $client->addListener(Client::eventResponse, function(ResponseEvent $event) {
-    echo "Server response: ", $event->getResponse()->getStatusCode();
-  });
+  $client->addListener(Client::eventResponse, fn(ResponseEvent $event) =>
+    print "Server response: {$event->getResponse()->getStatusCode()}"
+  );
 }
 ```
