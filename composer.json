@@ -40,7 +40,7 @@
 		"ext-SimpleXML": "*",
 		"ext-spl": "*",
 		"cedx/lcov.hx": "^1.0.3",
-		"cedx/which": "^9.0.0",
+		"cedx/which.hx": "^1.0.0",
 		"nyholm/psr7": "^1.3.0",
 		"psr/http-client": "^1.0.0",
 		"symfony/console": "^5.1.2",
