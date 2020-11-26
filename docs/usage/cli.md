@@ -1,21 +1,15 @@
----
-path: src/branch/main
-source: bin/coveralls
----
-
 # Command line interface
 The easy way. From a command prompt, install the `coveralls` executable:
 
-``` shell
+```shell
 composer global require cedx/coveralls
 ```
 
-!!! tip
-	Consider adding the [`composer global`](https://getcomposer.org/doc/03-cli.md#global) executables directory to your system path.
+?> Consider adding the `composer global` executables directory to your system path.
 
 Then use it to upload your coverage reports:
 
-``` shell
+```shell
 $ coveralls --help
 
 Description:
@@ -39,6 +33,6 @@ Options:
 
 For example:
 
-``` shell
+```shell
 coveralls build/coverage.xml
 ```

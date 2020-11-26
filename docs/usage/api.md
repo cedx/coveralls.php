@@ -1,13 +1,7 @@
----
-path: src/branch/main
-source: src/Client.php
----
-
 # Application programming interface
 The hard way. Use the `Coveralls\Client` class to upload your coverage reports:
 
-``` php
-<?php
+```php
 use Coveralls\{Client, ClientException};
 
 function main(): void {
@@ -24,17 +18,16 @@ function main(): void {
 }
 ```
 
-The `Client->upload()` method throws an [`InvalidArgumentException`](https://www.php.net/manual/en/class.invalidargumentexception.php)
-if the input report is invalid. It throws a `Coveralls\ClientException` if any error occurred while uploading the report.
+The `Client->upload()` method throws an `InvalidArgumentException` if the input report is invalid.
+It throws a `Coveralls\ClientException` if any error occurred while uploading the report.
 
 ## Client events
 The `Coveralls\Client` class is an [EventDispatcher](https://symfony.com/doc/current/components/event_dispatcher.html) that triggers some events during its life cycle.
 
-### The `Client::eventRequest` event
+### The "request" event
 Emitted every time a request is made to the remote service:
 
-``` php
-<?php
+```php
 use Coveralls\{Client, RequestEvent};
 
 function main(): void {
@@ -45,11 +38,10 @@ function main(): void {
 }
 ```
 
-### The `Client::eventResponse` event
+### The "response" event
 Emitted every time a response is received from the remote service:
 
-``` php
-<?php
+```php
 use Coveralls\{Client, ResponseEvent};
 
 function main(): void {
