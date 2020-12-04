@@ -52,7 +52,7 @@
 	},
 	"require-dev": {
 		"phpstan/phpstan": "^0.12.58",
-		"phpunit/phpunit": "^9.4.4"
+		"phpunit/phpunit": "^9.5.0"
 	},
 	"scripts": {
 		"build": "pwsh tool/build.ps1",
