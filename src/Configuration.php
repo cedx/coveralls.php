@@ -96,9 +96,8 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 		assert(mb_strlen($document) > 0);
 
 		try {
-			$yaml = Yaml::parse($document);
-			if (!is_array($yaml)) throw new \InvalidArgumentException("The specified YAML document is invalid.");
-			return new self($yaml);
+			is_array($yaml = Yaml::parse($document)) || throw new \InvalidArgumentException("The specified YAML document is invalid.");
+			return new static($yaml);
 		}
 
 		catch (ParseException $e) {

@@ -18,10 +18,10 @@ abstract class Lcov {
 		$workingDir = (string) getcwd();
 		$sourceFiles = Report::fromCoverage($report)->records->map(function(Record $record) use ($workingDir) {
 			$sourceFile = new \SplFileObject($record->sourceFile);
-			if (!$sourceFile->isReadable()) throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
+			$sourceFile->isReadable() || throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
 
 			$source = (string) $sourceFile->fread($sourceFile->getSize());
-			if (!mb_strlen($source)) throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
+			mb_strlen($source) || throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
 			/** @var \lcov\LineCoverage|null $lines */
 			$lines = $record->lines;

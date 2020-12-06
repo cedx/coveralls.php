@@ -49,7 +49,7 @@ abstract class GitHub {
 		return new Configuration([
 			"commit_sha" => $commitSha ?? null,
 			"service_branch" => preg_match($gitRegex, $gitRef) ? preg_replace($gitRegex, "", $gitRef) : null,
-			"service_build_url" => $commitSha && $repository ? sprintf(self::SERVICE_BUILD_URL_TEMPLATE, $repository, $commitSha) : null,
+			"service_build_url" => $commitSha && $repository ? sprintf(static::SERVICE_BUILD_URL_TEMPLATE, $repository, $commitSha) : null,
 			"service_name" => "github",
 			"service_job_id" => $jobId,
 			"service_pull_request" => $prNumber ?? null,

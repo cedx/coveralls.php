@@ -16,20 +16,19 @@ abstract class Clover {
 	 */
 	static function parseReport(string $report): Job {
 		$xml = @simplexml_load_string($report);
-		if (!$xml || !$xml->count() || !$xml->project->count())
-			throw new \InvalidArgumentException("The specified Clover report is invalid.");
+		($xml && $xml->count() && $xml->project->count()) || throw new \InvalidArgumentException("The specified Clover report is invalid.");
 
 		$files = [...($xml->xpath("/coverage/project/file") ?: []), ...($xml->xpath("/coverage/project/package/file") ?: [])];
 		$workingDir = (string) getcwd();
 
 		return new Job(array_map(function(\SimpleXMLElement $file) use ($workingDir) {
-			if (!isset($file["name"])) throw new \InvalidArgumentException("Invalid file data: {$file->asXML()}");
+			isset($file["name"]) || throw new \InvalidArgumentException("Invalid file data: {$file->asXML()}");
 
 			$sourceFile = new \SplFileObject((string) $file["name"]);
-			if (!$sourceFile->isReadable()) throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
+			$sourceFile->isReadable() || throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
 
 			$source = (string) $sourceFile->fread($sourceFile->getSize());
-			if (!mb_strlen($source)) throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
+			mb_strlen($source) || throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
 			$coverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
 			foreach ($file->line as $line) {

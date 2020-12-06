@@ -64,7 +64,7 @@ class Client extends EventDispatcher {
 			if ($token == "TN:" || $token == "SF:") $job = Lcov::parseReport($report);
 		}
 
-		if (!$job) throw new \InvalidArgumentException("The specified coverage format is not supported.");
+		$job || throw new \InvalidArgumentException("The specified coverage format is not supported.");
 		$this->updateJob($job, $config ?? Configuration::loadDefaults());
 		if (!$job->getRunAt()) $job->setRunAt(new \DateTimeImmutable);
 
@@ -87,8 +87,7 @@ class Client extends EventDispatcher {
 	 * @throws ClientException An error occurred while uploading the report.
 	 */
 	function uploadJob(Job $job): void {
-		if (!$job->getRepoToken() && !$job->getServiceName())
-			throw new \InvalidArgumentException("The job does not meet the requirements.");
+		$job->getRepoToken()  || $job->getServiceName() || throw new \InvalidArgumentException("The job does not meet the requirements.");
 
 		$endPoint = $this->getEndPoint();
 		$uri = $endPoint->withPath("{$endPoint->getPath()}jobs");

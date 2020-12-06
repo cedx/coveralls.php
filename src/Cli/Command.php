@@ -30,7 +30,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 		/** @var string $path */
 		$path = $input->getArgument("file");
 		$file = new \SplFileObject($path);
-		if (!$file->isReadable()) throw new RuntimeException("File not found: {$file->getPathname()}");
+		$file->isReadable() || throw new RuntimeException("File not found: {$file->getPathname()}");
 
 		$client = new Client(new Uri($_SERVER["COVERALLS_ENDPOINT"] ?? Client::defaultEndPoint));
 		$output->writeln("[Coveralls] Submitting to {$client->getEndPoint()}");
