@@ -76,7 +76,7 @@ class Client extends EventDispatcher {
 			$job->setGit($git);
 		}
 
-		catch (FinderException $e) {}
+		catch (FinderException) {}
 		$this->uploadJob($job);
 	}
 
