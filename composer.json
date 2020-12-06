@@ -32,7 +32,7 @@
 		"lcov"
 	],
 	"require": {
-		"php": ">=7.4.0",
+		"php": ">=8.0.0",
 		"ext-date": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
