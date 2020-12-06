@@ -29,10 +29,10 @@ class GitCommit implements \JsonSerializable {
 	/**
 	 * Creates a new Git commit from the specified JSON object.
 	 * @param object $map A JSON object representing a Git commit.
-	 * @return self The instance corresponding to the specified JSON object.
+	 * @return static The instance corresponding to the specified JSON object.
 	 */
-	static function fromJson(object $map): self {
-		return (new self(isset($map->id) && is_string($map->id) ? $map->id : "", isset($map->message) && is_string($map->message) ? $map->message : ""))
+	static function fromJson(object $map): static {
+		return (new static(isset($map->id) && is_string($map->id) ? $map->id : "", isset($map->message) && is_string($map->message) ? $map->message : ""))
 			->setAuthorEmail(isset($map->author_email) && is_string($map->author_email) ? $map->author_email : "")
 			->setAuthorName(isset($map->author_name) && is_string($map->author_name) ? $map->author_name : "")
 			->setCommitterEmail(isset($map->committer_email) && is_string($map->committer_email) ? $map->committer_email : "")
@@ -107,7 +107,7 @@ class GitCommit implements \JsonSerializable {
 	 * @param string $value The new mail address.
 	 * @return $this This instance.
 	 */
-	function setAuthorEmail(string $value): self {
+	function setAuthorEmail(string $value): static {
 		$this->authorEmail = $value;
 		return $this;
 	}
@@ -117,7 +117,7 @@ class GitCommit implements \JsonSerializable {
 	 * @param string $value The new name.
 	 * @return $this This instance.
 	 */
-	function setAuthorName(string $value): self {
+	function setAuthorName(string $value): static {
 		$this->authorName = $value;
 		return $this;
 	}
@@ -127,7 +127,7 @@ class GitCommit implements \JsonSerializable {
 	 * @param string $value The new mail address.
 	 * @return $this This instance.
 	 */
-	function setCommitterEmail(string $value): self {
+	function setCommitterEmail(string $value): static {
 		$this->committerEmail = $value;
 		return $this;
 	}
@@ -137,7 +137,7 @@ class GitCommit implements \JsonSerializable {
 	 * @param string $value The new name.
 	 * @return $this This instance.
 	 */
-	function setCommitterName(string $value): self {
+	function setCommitterName(string $value): static {
 		$this->committerName = $value;
 		return $this;
 	}

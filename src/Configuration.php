@@ -21,10 +21,10 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Creates a new configuration from the variables of the specified environment.
 	 * @param array<string, string|null>|null $env An array providing environment variables. Defaults to `$_SERVER`.
-	 * @return self The newly created configuration.
+	 * @return static The newly created configuration.
 	 */
-	static function fromEnvironment(array $env = null): self {
-		$config = new self;
+	static function fromEnvironment(array $env = null): static {
+		$config = new static;
 		$env ??= $_SERVER;
 
 		// Standard.
@@ -84,10 +84,10 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Creates a new configuration from the specified YAML document.
 	 * @param string $document A YAML document providing configuration parameters.
-	 * @return self The instance corresponding to the specified YAML document.
+	 * @return static The instance corresponding to the specified YAML document.
 	 * @throws \InvalidArgumentException The specified document is invalid.
 	 */
-	static function fromYaml(string $document): self {
+	static function fromYaml(string $document): static {
 		assert(mb_strlen($document) > 0);
 
 		try {
@@ -104,9 +104,9 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * Loads the default configuration.
 	 * The default values are read from the environment variables and an optional `.coveralls.yml` file.
 	 * @param string $coverallsFile The path to the `.coveralls.yml` file. Defaults to the file found in the current directory.
-	 * @return self The default configuration.
+	 * @return static The default configuration.
 	 */
-	static function loadDefaults(string $coverallsFile = ".coveralls.yml"): self {
+	static function loadDefaults(string $coverallsFile = ".coveralls.yml"): static {
 		assert(mb_strlen($coverallsFile) > 0);
 		$defaults = static::fromEnvironment();
 
@@ -155,9 +155,9 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 
 	/**
 	 * Adds all entries of the specified configuration to this one, ignoring `null` values.
-	 * @param self $config The configuration to be merged.
+	 * @param static $config The configuration to be merged.
 	 */
-	function merge(self $config): void {
+	function merge(static $config): void {
 		foreach ($config as $key => $value)
 			if ($value !== null) $this[$key] = $value;
 	}
@@ -175,7 +175,7 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Gets the value associated to the specified key.
 	 * @param string $key The key to seek for.
-	 * @return string The value, or a `null` reference is the key is not found.
+	 * @return string|null The value, or a `null` reference is the key is not found.
 	 */
 	function offsetGet($key): ?string {
 		assert(is_string($key) && mb_strlen($key) > 0);

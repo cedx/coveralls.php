@@ -48,10 +48,10 @@ class Job implements \JsonSerializable {
 	/**
 	 * Creates a new job from the specified JSON object.
 	 * @param object $map A JSON object representing a job.
-	 * @return self The instance corresponding to the specified JSON object.
+	 * @return static The instance corresponding to the specified JSON object.
 	 */
-	static function fromJson(object $map): self {
-		return (new self(isset($map->source_files) && is_array($map->source_files) ? array_map([SourceFile::class, "fromJson"], $map->source_files) : []))
+	static function fromJson(object $map): static {
+		return (new static(isset($map->source_files) && is_array($map->source_files) ? array_map([SourceFile::class, "fromJson"], $map->source_files) : []))
 			->setCommitSha(isset($map->commit_sha) && is_string($map->commit_sha) ? $map->commit_sha : "")
 			->setFlagName(isset($map->flag_name) && is_string($map->flag_name) ? $map->flag_name : "")
 			->setGit(isset($map->git) && is_object($map->git) ? GitData::fromJson($map->git) : null)
@@ -82,7 +82,7 @@ class Job implements \JsonSerializable {
 
 	/**
 	 * Get the Git data that can be used to display more information to users.
-	 * @return GitData The Git data that can be used to display more information to users.
+	 * @return GitData|null The Git data that can be used to display more information to users.
 	 */
 	function getGit(): ?GitData {
 		return $this->git;
@@ -179,7 +179,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new SHA of the commit being built.
 	 * @return $this This instance.
 	 */
-	function setCommitSha(string $value): self {
+	function setCommitSha(string $value): static {
 		$this->commitSha = $value;
 		return $this;
 	}
@@ -189,7 +189,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new job name.
 	 * @return $this This instance.
 	 */
-	function setFlagName(string $value): self {
+	function setFlagName(string $value): static {
 		$this->flagName = $value;
 		return $this;
 	}
@@ -199,7 +199,7 @@ class Job implements \JsonSerializable {
 	 * @param GitData|null $value The new Git data.
 	 * @return $this This instance.
 	 */
-	function setGit(?GitData $value): self {
+	function setGit(?GitData $value): static {
 		$this->git = $value;
 		return $this;
 	}
@@ -209,7 +209,7 @@ class Job implements \JsonSerializable {
 	 * @param bool $value `true` if the build will not be considered done until a webhook has been sent to Coverall, otherwise `false`.
 	 * @return $this This instance.
 	 */
-	function setParallel(bool $value): self {
+	function setParallel(bool $value): static {
 		$this->isParallel = $value;
 		return $this;
 	}
@@ -219,7 +219,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new secret token.
 	 * @return $this This instance.
 	 */
-	function setRepoToken(string $value): self {
+	function setRepoToken(string $value): static {
 		$this->repoToken = $value;
 		return $this;
 	}
@@ -229,7 +229,7 @@ class Job implements \JsonSerializable {
 	 * @param \DateTimeInterface|null $value The new timestamp.
 	 * @return $this This instance.
 	 */
-	function setRunAt(?\DateTimeInterface $value): self {
+	function setRunAt(?\DateTimeInterface $value): static {
 		$this->runAt = $value ? new \DateTimeImmutable("@{$value->getTimestamp()}") : null;
 		return $this;
 	}
@@ -239,7 +239,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new unique identifier of the job on the CI service.
 	 * @return $this This instance.
 	 */
-	function setServiceJobId(string $value): self {
+	function setServiceJobId(string $value): static {
 		$this->serviceJobId = $value;
 		return $this;
 	}
@@ -249,7 +249,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new CI service in which the test suite was run.
 	 * @return $this This instance.
 	 */
-	function setServiceName(string $value): self {
+	function setServiceName(string $value): static {
 		$this->serviceName = $value;
 		return $this;
 	}
@@ -259,7 +259,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new build number.
 	 * @return $this This instance.
 	 */
-	function setServiceNumber(string $value): self {
+	function setServiceNumber(string $value): static {
 		$this->serviceNumber = $value;
 		return $this;
 	}
@@ -269,7 +269,7 @@ class Job implements \JsonSerializable {
 	 * @param string $value The new pull request identifier.
 	 * @return $this This instance.
 	 */
-	function setServicePullRequest(string $value): self {
+	function setServicePullRequest(string $value): static {
 		$this->servicePullRequest = $value;
 		return $this;
 	}

@@ -20,10 +20,10 @@ class GitData implements \JsonSerializable {
 	/**
 	 * Creates a new Git data from the specified JSON object.
 	 * @param object $map A JSON object representing a Git data.
-	 * @return self The instance corresponding to the specified JSON object.
+	 * @return static The instance corresponding to the specified JSON object.
 	 */
-	static function fromJson(object $map): self {
-		return new self(
+	static function fromJson(object $map): static {
+		return new static(
 			isset($map->head) && is_object($map->head) ? GitCommit::fromJson($map->head) : null,
 			isset($map->branch) && is_string($map->branch) ? $map->branch : "",
 			isset($map->remotes) && is_array($map->remotes) ? array_map([GitRemote::class, "fromJson"], $map->remotes) : []
@@ -34,9 +34,9 @@ class GitData implements \JsonSerializable {
 	 * Creates a new Git data from a local repository.
 	 * This method relies on the availability of the Git executable in the system path.
 	 * @param string $path The path to the repository folder. Defaults to the current working directory.
-	 * @return self The newly created Git data.
+	 * @return static The newly created Git data.
 	 */
-	static function fromRepository(string $path = ""): self {
+	static function fromRepository(string $path = ""): static {
 		$workingDir = getcwd() ?: ".";
 		if (!mb_strlen($path)) $path = $workingDir;
 		chdir($path);
@@ -59,7 +59,7 @@ class GitData implements \JsonSerializable {
 		}
 
 		chdir($workingDir);
-		return new self(GitCommit::fromJson($commands), $commands->branch, array_values($remotes));
+		return new static(GitCommit::fromJson($commands), $commands->branch, array_values($remotes));
 	}
 
 	/**
@@ -72,7 +72,7 @@ class GitData implements \JsonSerializable {
 
 	/**
 	 * Gets the Git commit.
-	 * @return GitCommit The Git commit.
+	 * @return GitCommit|null The Git commit.
 	 */
 	function getCommit(): ?GitCommit {
 		return $this->commit;
@@ -103,7 +103,7 @@ class GitData implements \JsonSerializable {
 	 * @param string $value The new name.
 	 * @return $this This instance.
 	 */
-	function setBranch(string $value): self {
+	function setBranch(string $value): static {
 		$this->branch = $value;
 		return $this;
 	}
