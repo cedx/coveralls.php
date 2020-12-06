@@ -16,18 +16,12 @@ class GitCommit implements \JsonSerializable {
 	/** @var string The committer name. */
 	private string $committerName = "";
 
-	/** @var string The commit identifier. */
-	private string $id;
-
-	/** @var string The commit message. */
-	private string $message;
-
 	/**
 	 * Creates a new Git commit.
 	 * @param string $id The commit identifier.
 	 * @param string $message The commit message.
 	 */
-	function __construct(string $id, string $message = "") {
+	function __construct(private string $id, private string $message = "") {
 		$this->id = $id;
 		$this->message = $message;
 	}

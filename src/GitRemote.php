@@ -7,9 +7,6 @@ use Psr\Http\Message\UriInterface;
 /** Represents a Git remote repository. */
 class GitRemote implements \JsonSerializable {
 
-	/** @var string The remote's name. */
-	private string $name;
-
 	/** @var UriInterface|null The remote's URL. */
 	private ?UriInterface $url;
 
@@ -18,8 +15,7 @@ class GitRemote implements \JsonSerializable {
 	 * @param string $name The remote's name.
 	 * @param UriInterface|string|null $url The remote's URL.
 	 */
-	function __construct(string $name, $url = null) {
-		$this->name = $name;
+	function __construct(private string $name, $url = null) {
 		$this->url = !is_string($url) ? $url :
 			new Uri(preg_match('#^\w+://#', $url) ? $url : (string) preg_replace('/^([^@]+@)?([^:]+):(.+)$/', 'ssh://$1$2/$3', $url));
 	}

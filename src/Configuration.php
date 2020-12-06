@@ -12,16 +12,11 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable {
 
-	/** @var array<string, string|null> The configuration parameters. */
-	private array $params;
-
 	/**
 	 * Creates a new configuration.
 	 * @param array<string, string|null> $params The configuration parameters.
 	 */
-	function __construct(array $params = []) {
-		$this->params = $params;
-	}
+	function __construct(private array $params = []) {}
 
 	/**
 	 * Creates a new configuration from the variables of the specified environment.

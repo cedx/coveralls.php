@@ -10,15 +10,6 @@ class SourceFile implements \JsonSerializable {
 	/** @var \ArrayObject<int, int|null> The coverage data for this file's job. */
 	private \ArrayObject $coverage;
 
-	/** @var string The file path of this source file. */
-	private string $name;
-
-	/** @var string The contents of this source file. */
-	private string $source;
-
-	/** @var string The MD5 digest of the full source code of this file. */
-	private string $sourceDigest;
-
 	/**
 	 * Creates a new source file.
 	 * @param string $name The file path of this source file.
@@ -27,12 +18,9 @@ class SourceFile implements \JsonSerializable {
 	 * @param array<int|null> $coverage The coverage data for this file's job.
 	 * @param int[] $branches The branch data for this file's job.
 	 */
-	function __construct(string $name, string $sourceDigest, string $source = "", array $coverage = [], array $branches = []) {
+	function __construct(private string $name, private string $sourceDigest, private string $source = "", array $coverage = [], array $branches = []) {
 		$this->branches = new \ArrayObject($branches);
 		$this->coverage = new \ArrayObject($coverage);
-		$this->name = $name;
-		$this->sourceDigest = $sourceDigest;
-		$this->source = $source;
 	}
 
 	/**

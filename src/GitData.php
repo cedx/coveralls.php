@@ -4,12 +4,6 @@ namespace Coveralls;
 /** Represents Git data that can be used to display more information to users. */
 class GitData implements \JsonSerializable {
 
-	/** @var string The branch name. */
-	private string $branch;
-
-	/** @var GitCommit|null The Git commit. */
-	private ?GitCommit $commit;
-
 	/** @var \ArrayObject<int, GitRemote> The remote repositories. */
 	private \ArrayObject $remotes;
 
@@ -19,9 +13,7 @@ class GitData implements \JsonSerializable {
 	 * @param string $branch The branch name.
 	 * @param GitRemote[] $remotes The remote repositories.
 	 */
-	function __construct(?GitCommit $commit, string $branch = "", array $remotes = []) {
-		$this->setBranch($branch);
-		$this->commit = $commit;
+	function __construct(private ?GitCommit $commit, private string $branch = "", array $remotes = []) {
 		$this->remotes = new \ArrayObject($remotes);
 	}
 
