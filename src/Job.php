@@ -230,7 +230,7 @@ class Job implements \JsonSerializable {
 	 * @return $this This instance.
 	 */
 	function setRunAt(?\DateTimeInterface $value): static {
-		$this->runAt = $value ? new \DateTimeImmutable("@{$value->getTimestamp()}") : null;
+		$this->runAt = $value ? \DateTimeImmutable::createFromInterface($value) : null;
 		return $this;
 	}
 
