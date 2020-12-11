@@ -22,21 +22,21 @@ class CloverTest extends TestCase {
 		assertThat($firstFile, isInstanceOf(SourceFile::class));
 		assertThat($firstFile->getBranches(), isEmpty());
 		assertThat(array_intersect($subset, (array) $firstFile->getCoverage()), equalTo($subset));
-		assertThat($firstFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Client.php")));
+		assertThat($firstFile->getName(), equalTo("src/Client.php"));
 		assertThat($firstFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		$subset = [null, 4, 4, 2, 2, 4, 2, 2, 4, 4, null];
 		assertThat($secondFile, isInstanceOf(SourceFile::class));
 		assertThat($secondFile->getBranches(), isEmpty());
 		assertThat(array_intersect($subset, (array) $secondFile->getCoverage()), equalTo($subset));
-		assertThat($secondFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Configuration.php")));
+		assertThat($secondFile->getName(), equalTo("src/Configuration.php"));
 		assertThat($secondFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		$subset = [null, 2, 2, 2, 2, 2, 0, 0, 2, 2, null];
 		assertThat($thirdFile, isInstanceOf(SourceFile::class));
 		assertThat($thirdFile->getBranches(), isEmpty());
 		assertThat(array_intersect($subset, (array) $thirdFile->getCoverage()), equalTo($subset));
-		assertThat($thirdFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/GitCommit.php")));
+		assertThat($thirdFile->getName(), equalTo("src/GitCommit.php"));
 		assertThat($thirdFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		// It should throw an exception if the Clover report is invalid or empty.

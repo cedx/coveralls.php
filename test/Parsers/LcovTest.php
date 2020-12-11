@@ -22,19 +22,19 @@ class LcovTest extends TestCase {
 		assertThat($firstFile, isInstanceOf(SourceFile::class));
 		assertThat($firstFile->getBranches(), isEmpty());
 		assertThat(array_intersect($subset, (array) $firstFile->getCoverage()), equalTo($subset));
-		assertThat($firstFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Client.php")));
+		assertThat($firstFile->getName(), equalTo("src/Client.php"));
 		assertThat($firstFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		$subset = [null, 4, 4, 2, 2, 4, 2, 2, 4, 4, null];
 		assertThat((array) $secondFile->getBranches(), equalTo([8, 0, 0, 2, 8, 0, 1, 2, 11, 0, 0, 2, 11, 0, 1, 2]));
 		assertThat(array_intersect($subset, (array) $secondFile->getCoverage()), equalTo($subset));
-		assertThat($secondFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Configuration.php")));
+		assertThat($secondFile->getName(), equalTo("src/Configuration.php"));
 		assertThat($secondFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		$subset = [null, 2, 2, 2, 2, 2, 0, 0, 2, 2, null];
 		assertThat((array) $thirdFile->getBranches(), equalTo([8, 0, 0, 2, 8, 0, 1, 0, 11, 0, 0, 0, 11, 0, 1, 2]));
 		assertThat(array_intersect($subset, (array) $thirdFile->getCoverage()), equalTo($subset));
-		assertThat($thirdFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/GitCommit.php")));
+		assertThat($thirdFile->getName(), equalTo("src/GitCommit.php"));
 		assertThat($thirdFile->getSourceDigest(), logicalNot(isEmpty()));
 
 		// It should throw an exception when parsing reports with invalid source file.

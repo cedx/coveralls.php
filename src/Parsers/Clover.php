@@ -42,7 +42,7 @@ abstract class Clover {
 				? Path::makeRelative($sourceFile->getPathname(), $workingDir)
 				: Path::canonicalize($sourceFile->getPathname());
 
-			return new SourceFile(str_replace("/", DIRECTORY_SEPARATOR, $filename), md5($source), $source, (array) $coverage);
+			return new SourceFile($filename, md5($source), $source, (array) $coverage);
 		}, $files));
 	}
 }

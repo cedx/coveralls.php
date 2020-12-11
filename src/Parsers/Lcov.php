@@ -25,9 +25,13 @@ abstract class Lcov {
 
 			/** @var \lcov\LineCoverage|null $lines */
 			$lines = $record->lines;
+
 			$lineCoverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
-			if ($lines) foreach ($lines->data as $lineData)
-				$lineCoverage[$lineData->lineNumber - 1] = $lineData->executionCount;
+			if ($lines) foreach ($lines->data as $lineData) {
+				/** @var int $offset */
+				$offset = $lineData->lineNumber - 1;
+				$lineCoverage[$offset] = $lineData->executionCount;
+			}
 
 			/** @var \lcov\BranchCoverage|null $branches */
 			$branches = $record->branches;
@@ -39,7 +43,7 @@ abstract class Lcov {
 				? Path::makeRelative($sourceFile->getPathname(), $workingDir)
 				: Path::canonicalize($sourceFile->getPathname());
 
-			return new SourceFile(str_replace("/", DIRECTORY_SEPARATOR, $filename), md5($source), $source, (array) $lineCoverage, $branchCoverage);
+			return new SourceFile($filename, md5($source), $source, (array) $lineCoverage, $branchCoverage);
 		});
 
 		return new Job($sourceFiles->arr);
