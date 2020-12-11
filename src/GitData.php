@@ -4,24 +4,15 @@ namespace Coveralls;
 /** Represents Git data that can be used to display more information to users. */
 class GitData implements \JsonSerializable {
 
-	/** @var \ArrayObject<int, GitRemote> The remote repositories. */
+	/** The remote repositories. */
 	private \ArrayObject $remotes;
 
-	/**
-	 * Creates a new Git data.
-	 * @param GitCommit $commit The Git commit.
-	 * @param string $branch The branch name.
-	 * @param GitRemote[] $remotes The remote repositories.
-	 */
+	/** Creates a new Git data. */
 	function __construct(private ?GitCommit $commit, private string $branch = "", array $remotes = []) {
 		$this->remotes = new \ArrayObject($remotes);
 	}
 
-	/**
-	 * Creates a new Git data from the specified JSON object.
-	 * @param object $map A JSON object representing a Git data.
-	 * @return self The instance corresponding to the specified JSON object.
-	 */
+	/** Creates a new Git data from the specified JSON object. */
 	static function fromJson(object $map): self {
 		return new self(
 			isset($map->head) && is_object($map->head) ? GitCommit::fromJson($map->head) : null,
@@ -31,10 +22,8 @@ class GitData implements \JsonSerializable {
 	}
 
 	/**
-	 * Creates a new Git data from a local repository.
+	 * Creates a new Git data from a local repository located at the specified path.
 	 * This method relies on the availability of the Git executable in the system path.
-	 * @param string $path The path to the repository folder. Defaults to the current working directory.
-	 * @return self The newly created Git data.
 	 */
 	static function fromRepository(string $path = ""): self {
 		$workingDir = getcwd() ?: ".";
@@ -62,34 +51,22 @@ class GitData implements \JsonSerializable {
 		return new self(GitCommit::fromJson($commands), $commands->branch, array_values($remotes));
 	}
 
-	/**
-	 * Gets the branch name.
-	 * @return string The branch name.
-	 */
+	/** Gets the branch name. */
 	function getBranch(): string {
 		return $this->branch;
 	}
 
-	/**
-	 * Gets the Git commit.
-	 * @return GitCommit|null The Git commit.
-	 */
+	/** Gets the Git commit. */
 	function getCommit(): ?GitCommit {
 		return $this->commit;
 	}
 
-	/**
-	 * Gets the remote repositories.
-	 * @return \ArrayObject<int, GitRemote> The remote repositories.
-	 */
+	/** Gets the remote repositories. */
 	function getRemotes(): \ArrayObject {
 		return $this->remotes;
 	}
 
-	/**
-	 * Converts this object to a map in JSON format.
-	 * @return \stdClass The map in JSON format corresponding to this object.
-	 */
+	/** Converts this object to a map in JSON format. */
 	function jsonSerialize(): \stdClass {
 		return (object) [
 			"branch" => $this->getBranch(),
@@ -98,11 +75,7 @@ class GitData implements \JsonSerializable {
 		];
 	}
 
-	/**
-	 * Sets the branch name.
-	 * @param string $value The new name.
-	 * @return $this This instance.
-	 */
+	/** Sets the branch name. */
 	function setBranch(string $value): static {
 		$this->branch = $value;
 		return $this;

@@ -4,33 +4,25 @@ namespace Coveralls;
 /** Represents a Git commit. */
 class GitCommit implements \JsonSerializable {
 
-	/** @var string The author mail address. */
+	/** The author mail address. */
 	private string $authorEmail = "";
 
-	/** @var string The author name. */
+	/** The author name. */
 	private string $authorName = "";
 
-	/** @var string The committer mail address. */
+	/** The committer mail address. */
 	private string $committerEmail = "";
 
-	/** @var string The committer name. */
+	/** The committer name. */
 	private string $committerName = "";
 
-	/**
-	 * Creates a new Git commit.
-	 * @param string $id The commit identifier.
-	 * @param string $message The commit message.
-	 */
+	/** Creates a new Git commit. */
 	function __construct(private string $id, private string $message = "") {
 		$this->id = $id;
 		$this->message = $message;
 	}
 
-	/**
-	 * Creates a new Git commit from the specified JSON object.
-	 * @param object $map A JSON object representing a Git commit.
-	 * @return self The instance corresponding to the specified JSON object.
-	 */
+	/** Creates a new Git commit from the specified JSON object. */
 	static function fromJson(object $map): self {
 		return (new self(isset($map->id) && is_string($map->id) ? $map->id : "", isset($map->message) && is_string($map->message) ? $map->message : ""))
 			->setAuthorEmail(isset($map->author_email) && is_string($map->author_email) ? $map->author_email : "")
@@ -39,58 +31,37 @@ class GitCommit implements \JsonSerializable {
 			->setCommitterName(isset($map->committer_name) && is_string($map->committer_name) ? $map->committer_name : "");
 	}
 
-	/**
-	 * Gets the author mail address.
-	 * @return string The author mail address.
-	 */
+	/** Gets the author mail address. */
 	function getAuthorEmail(): string {
 		return $this->authorEmail;
 	}
 
-	/**
-	 * Gets the author name.
-	 * @return string The author name.
-	 */
+	/** Gets the author name. */
 	function getAuthorName(): string {
 		return $this->authorName;
 	}
 
-	/**
-	 * Gets the committer mail address.
-	 * @return string The committer mail address.
-	 */
+	/** Gets the committer mail address. */
 	function getCommitterEmail(): string {
 		return $this->committerEmail;
 	}
 
-	/**
-	 * Gets the committer name.
-	 * @return string The committer name.
-	 */
+	/** Gets the committer name. */
 	function getCommitterName(): string {
 		return $this->committerName;
 	}
 
-	/**
-	 * Gets the commit identifier.
-	 * @return string The commit identifier.
-	 */
+	/** Gets the commit identifier. */
 	function getId(): string {
 		return $this->id;
 	}
 
-	/**
-	 * Gets the commit message.
-	 * @return string The commit message.
-	 */
+	/** Gets the commit message. */
 	function getMessage(): string {
 		return $this->message;
 	}
 
-	/**
-	 * Converts this object to a map in JSON format.
-	 * @return \stdClass The map in JSON format corresponding to this object.
-	 */
+	/** Converts this object to a map in JSON format. */
 	function jsonSerialize(): \stdClass {
 		$map = new \stdClass;
 		$map->id = $this->getId();
@@ -102,41 +73,25 @@ class GitCommit implements \JsonSerializable {
 		return $map;
 	}
 
-	/**
-	 * Sets the author mail address.
-	 * @param string $value The new mail address.
-	 * @return $this This instance.
-	 */
+	/** Sets the author mail address. */
 	function setAuthorEmail(string $value): static {
 		$this->authorEmail = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the author name.
-	 * @param string $value The new name.
-	 * @return $this This instance.
-	 */
+	/** Sets the author name. */
 	function setAuthorName(string $value): static {
 		$this->authorName = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the committer mail address.
-	 * @param string $value The new mail address.
-	 * @return $this This instance.
-	 */
+	/** Sets the committer mail address. */
 	function setCommitterEmail(string $value): static {
 		$this->committerEmail = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the committer name.
-	 * @param string $value The new name.
-	 * @return $this This instance.
-	 */
+	/** Sets the committer name. */
 	function setCommitterName(string $value): static {
 		$this->committerName = $value;
 		return $this;

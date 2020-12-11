@@ -6,11 +6,7 @@ use Coveralls\Configuration;
 /** Fetches the [GitHub](https://github.com) configuration parameters from the environment. */
 abstract class GitHub {
 
-	/**
-	 * Gets the configuration parameters from the environment.
-	 * @param array<string, string|null> $env An array providing environment variables.
-	 * @return Configuration The configuration parameters.
-	 */
+	/** Reads the configuration parameters from the specified array of environment variables. */
 	static function getConfiguration(array $env): Configuration {
 		$commitSha = $env["GITHUB_SHA"] ?? "";
 		$repository = $env["GITHUB_REPOSITORY"] ?? "";

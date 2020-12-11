@@ -13,43 +13,36 @@ use function which\which;
 /** Uploads code coverage reports to the [Coveralls](https://coveralls.io) service. */
 class Client extends EventDispatcher {
 
-	/** @var string The URL of the default API end point. */
+	/** The URL of the default API end point. */
 	const defaultEndPoint = "https://coveralls.io/api/v1/";
 
-	/** @var string An event that is triggered when a request is made to the remote service. */
+	/** An event that is triggered when a request is made to the remote service. */
 	const eventRequest = RequestEvent::class;
 
-	/** @var string An event that is triggered when a response is received from the remote service. */
+	/** An event that is triggered when a response is received from the remote service. */
 	const eventResponse = ResponseEvent::class;
 
-	/** @var UriInterface The URL of the API end point. */
+	/** The URL of the API end point. */
 	private UriInterface $endPoint;
 
-	/** @var Psr18Client The HTTP client. */
+	/** The HTTP client. */
 	private Psr18Client $http;
 
-	/**
-	 * Creates a new client.
-	 * @param UriInterface|null $endPoint The URL of the API end point.
-	 */
+	/** Creates a new client. */
 	function __construct(?UriInterface $endPoint = null) {
 		parent::__construct();
 		$this->http = new Psr18Client;
 		$this->endPoint = $endPoint ?? $this->http->createUri(static::defaultEndPoint);
 	}
 
-	/**
-	 * Gets the URL of the API end point.
-	 * @return UriInterface The URL of the API end point.
-	 */
+	/** Gets the URL of the API end point. */
 	function getEndPoint(): UriInterface {
 		return $this->endPoint;
 	}
 
 	/**
 	 * Uploads the specified code coverage report to the Coveralls service.
-	 * @param string $coverage A coverage report.
-	 * @param Configuration $config The environment settings.
+	 * An optional configuration object provides the settings to use with the remote service.
 	 * @throws \InvalidArgumentException The format of the specified coverage report is not supported.
 	 */
 	function upload(string $coverage, Configuration $config = null): void {
@@ -82,7 +75,6 @@ class Client extends EventDispatcher {
 
 	/**
 	 * Uploads the specified job to the Coveralls service.
-	 * @param Job $job The job to be uploaded.
 	 * @throws \InvalidArgumentException The job does not meet the requirements.
 	 * @throws ClientException An error occurred while uploading the report.
 	 */
@@ -109,11 +101,7 @@ class Client extends EventDispatcher {
 		}
 	}
 
-	/**
-	 * Updates the properties of the specified job using the given configuration parameters.
-	 * @param Job $job The job to update.
-	 * @param Configuration $config The parameters to define.
-	 */
+	/** Updates the properties of the specified job using the given configuration parameters. */
 	private function updateJob(Job $job, Configuration $config): void {
 		if (isset($config["repo_token"])) $job->setRepoToken($config["repo_token"]);
 		else if (isset($config["repo_secret_token"])) $job->setRepoToken($config["repo_secret_token"]);

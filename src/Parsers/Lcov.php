@@ -8,12 +8,7 @@ use Webmozart\PathUtil\Path;
 /** Parses [LCOV](http://ltp.sourceforge.net/coverage/lcov.php) coverage reports. */
 abstract class Lcov {
 
-	/**
-	 * Parses the specified coverage report.
-	 * @param string $report A coverage report in LCOV format.
-	 * @return Job The job corresponding to the specified coverage report.
-	 * @throws \RuntimeException A source file is not found or empty.
-	 */
+	/** Parses the specified coverage report. */
 	static function parseReport(string $report): Job {
 		$workingDir = (string) getcwd();
 		$sourceFiles = Report::fromCoverage($report)->records->map(function(Record $record) use ($workingDir) {

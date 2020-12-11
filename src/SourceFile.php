@@ -4,30 +4,19 @@ namespace Coveralls;
 /** Represents a source code file and its coverage data for a single job. */
 class SourceFile implements \JsonSerializable {
 
-	/** @var \ArrayObject<int, int> The branch data for this file's job. */
+	/** The branch data for this file's job. */
 	private \ArrayObject $branches;
 
-	/** @var \ArrayObject<int, int|null> The coverage data for this file's job. */
+	/** The coverage data for this file's job. */
 	private \ArrayObject $coverage;
 
-	/**
-	 * Creates a new source file.
-	 * @param string $name The file path of this source file.
-	 * @param string $sourceDigest The MD5 digest of the full source code of this file.
-	 * @param string $source The contents of this source file.
-	 * @param array<int|null> $coverage The coverage data for this file's job.
-	 * @param int[] $branches The branch data for this file's job.
-	 */
+	/** Creates a new source file. */
 	function __construct(private string $name, private string $sourceDigest, private string $source = "", array $coverage = [], array $branches = []) {
 		$this->branches = new \ArrayObject($branches);
 		$this->coverage = new \ArrayObject($coverage);
 	}
 
-	/**
-	 * Creates a new source file from the specified JSON object.
-	 * @param object $map A JSON object representing a source file.
-	 * @return self The instance corresponding to the specified JSON object.
-	 */
+	/** Creates a new source file from the specified JSON object. */
 	static function fromJson(object $map): self {
 		return new self(
 			isset($map->name) && is_string($map->name) ? $map->name : "",
@@ -38,50 +27,32 @@ class SourceFile implements \JsonSerializable {
 		);
 	}
 
-	/**
-	 * Gets the branch data for this file's job.
-	 * @return \ArrayObject<int, int> The branch data.
-	 */
+	/** Gets the branch data for this file's job. */
 	function getBranches(): \ArrayObject {
 		return $this->branches;
 	}
 
-	/**
-	 * Gets the coverage data for this file's job.
-	 * @return \ArrayObject<int, int|null> The coverage data.
-	 */
+	/** Gets the coverage data for this file's job. */
 	function getCoverage(): \ArrayObject {
 		return $this->coverage;
 	}
 
-	/**
-	 * Gets the file path of this source file.
-	 * @return string The file path of this source file.
-	 */
+	/** Gets the file path of this source file. */
 	function getName(): string {
 		return $this->name;
 	}
 
-	/**
-	 * Gets the contents of this source file.
-	 * @return string The contents of this source file.
-	 */
+	/** Gets the contents of this source file. */
 	function getSource(): string {
 		return $this->source;
 	}
 
-	/**
-	 * Gets the MD5 digest of the full source code of this file.
-	 * @return string The MD5 digest of the full source code of this file.
-	 */
+	/** Gets the MD5 digest of the full source code of this file. */
 	function getSourceDigest(): string {
 		return $this->sourceDigest;
 	}
 
-	/**
-	 * Converts this object to a map in JSON format.
-	 * @return \stdClass The map in JSON format corresponding to this object.
-	 */
+	/** Converts this object to a map in JSON format. */
 	function jsonSerialize(): \stdClass {
 		$map = new \stdClass;
 		$map->coverage = (array) $this->getCoverage();

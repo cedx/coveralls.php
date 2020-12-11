@@ -4,52 +4,45 @@ namespace Coveralls;
 /** Represents the coverage data from a single run of a test suite. */
 class Job implements \JsonSerializable {
 
-	/** @var string The current SHA of the commit being built to override the `git` parameter. */
+	/** The current SHA of the commit being built to override the `git` parameter. */
 	private string $commitSha = "";
 
-	/** @var string The job name. */
+	/** The job name. */
 	private string $flagName = "";
 
-	/** @var GitData|null The Git data that can be used to display more information to users. */
+	/** The Git data that can be used to display more information to users. */
 	private ?GitData $git = null;
 
-	/** @var bool Value indicating whether the build will not be considered done until a webhook has been sent to Coveralls. */
+	/** Value indicating whether the build will not be considered done until a webhook has been sent to Coveralls. */
 	private bool $isParallel = false;
 
-	/** @var string The secret token for the repository. */
+	/** The secret token for the repository. */
 	private string $repoToken = "";
 
-	/** @var \DateTimeImmutable|null The timestamp of when the job ran. */
+	/** The timestamp of when the job ran. */
 	private ?\DateTimeImmutable $runAt = null;
 
-	/** @var string The unique identifier of the job on the CI service. */
+	/** The unique identifier of the job on the CI service. */
 	private string $serviceJobId = "";
 
-	/** @var string The CI service or other environment in which the test suite was run. */
+	/** The CI service or other environment in which the test suite was run. */
 	private string $serviceName = "";
 
-	/** @var string The build number. */
+	/** The build number. */
 	private string $serviceNumber = "";
 
-	/** @var string The associated pull request identifier of the build. */
+	/** The associated pull request identifier of the build. */
 	private string $servicePullRequest = "";
 
-	/** @var \ArrayObject<int, SourceFile> The list of source files. */
+	/** The list of source files. */
 	private \ArrayObject $sourceFiles;
 
-	/**
-	 * Creates a new job.
-	 * @param SourceFile[] $sourceFiles The list of source files.
-	 */
+	/** Creates a new job. */
 	function __construct(array $sourceFiles = []) {
 		$this->sourceFiles = new \ArrayObject($sourceFiles);
 	}
 
-	/**
-	 * Creates a new job from the specified JSON object.
-	 * @param object $map A JSON object representing a job.
-	 * @return self The instance corresponding to the specified JSON object.
-	 */
+	/** Creates a new job from the specified JSON object. */
 	static function fromJson(object $map): self {
 		return (new self(isset($map->source_files) && is_array($map->source_files) ? array_map([SourceFile::class, "fromJson"], $map->source_files) : []))
 			->setCommitSha(isset($map->commit_sha) && is_string($map->commit_sha) ? $map->commit_sha : "")
@@ -64,98 +57,62 @@ class Job implements \JsonSerializable {
 			->setServicePullRequest(isset($map->service_pull_request) && is_string($map->service_pull_request) ? $map->service_pull_request : "");
 	}
 
-	/**
-	 * Gets the current SHA of the commit being built to override the `git` parameter.
-	 * @return string The SHA of the commit being built.
-	 */
+	/** Gets the current SHA of the commit being built to override the `git` parameter. */
 	function getCommitSha(): string {
 		return $this->commitSha;
 	}
 
-	/**
-	 * Gets the job name.
-	 * @return string The job name.
-	 */
+	/** Gets the job name. */
 	function getFlagName(): string {
 		return $this->flagName;
 	}
 
-	/**
-	 * Get the Git data that can be used to display more information to users.
-	 * @return GitData|null The Git data that can be used to display more information to users.
-	 */
+	/** Get the Git data that can be used to display more information to users. */
 	function getGit(): ?GitData {
 		return $this->git;
 	}
 
-	/**
-	 * Gets the secret token for the repository.
-	 * @return string The secret token for the repository.
-	 */
+	/** Gets the secret token for the repository. */
 	function getRepoToken(): string {
 		return $this->repoToken;
 	}
 
-	/**
-	 * Gets the timestamp of when the job ran.
-	 * @return \DateTimeImmutable|null The timestamp of when the job ran.
-	 */
+	/** Gets the timestamp of when the job ran. */
 	function getRunAt(): ?\DateTimeImmutable {
 		return $this->runAt;
 	}
 
-	/**
-	 * Gets the unique identifier of the job on the CI service.
-	 * @return string The unique identifier of the job on the CI service.
-	 */
+	/** Gets the unique identifier of the job on the CI service. */
 	function getServiceJobId(): string {
 		return $this->serviceJobId;
 	}
 
-	/**
-	 * Gets the CI service or other environment in which the test suite was run.
-	 * @return string The CI service or other environment in which the test suite was run.
-	 */
+	/** Gets the CI service or other environment in which the test suite was run. */
 	function getServiceName(): string {
 		return $this->serviceName;
 	}
 
-	/**
-	 * Gets the build number.
-	 * @return string The build number.
-	 */
+	/** Gets the build number. */
 	function getServiceNumber(): string {
 		return $this->serviceNumber;
 	}
 
-	/**
-	 * Gets the associated pull request identifier of the build.
-	 * @return string The associated pull request identifier of the build.
-	 */
+	/** Gets the associated pull request identifier of the build. */
 	function getServicePullRequest(): string {
 		return $this->servicePullRequest;
 	}
 
-	/**
-	 * Gets the list of source files.
-	 * @return \ArrayObject<int, SourceFile> The source files.
-	 */
+	/** Gets the list of source files. */
 	function getSourceFiles(): \ArrayObject {
 		return $this->sourceFiles;
 	}
 
-	/**
-	 * Gets a value indicating whether the build will not be considered done until a webhook has been sent to Coveralls.
-	 * @return bool `true` if the build will not be considered done until a webhook has been sent to Coverall, otherwise `false`.
-	 */
+	/** Gets a value indicating whether the build will not be considered done until a webhook has been sent to Coveralls. */
 	function isParallel(): bool {
 		return $this->isParallel;
 	}
 
-	/**
-	 * Converts this object to a map in JSON format.
-	 * @return \stdClass The map in JSON format corresponding to this object.
-	 */
+	/** Converts this object to a map in JSON format. */
 	function jsonSerialize(): \stdClass {
 		$map = new \stdClass;
 
@@ -174,101 +131,61 @@ class Job implements \JsonSerializable {
 		return $map;
 	}
 
-	/**
-	 * Sets the current SHA of the commit being built to override the `git` parameter.
-	 * @param string $value The new SHA of the commit being built.
-	 * @return $this This instance.
-	 */
+	/** Sets the current SHA of the commit being built to override the `git` parameter. */
 	function setCommitSha(string $value): static {
 		$this->commitSha = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the job name.
-	 * @param string $value The new job name.
-	 * @return $this This instance.
-	 */
+	/** Sets the job name. */
 	function setFlagName(string $value): static {
 		$this->flagName = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the Git data that can be used to display more information to users.
-	 * @param GitData|null $value The new Git data.
-	 * @return $this This instance.
-	 */
+	/** Sets the Git data that can be used to display more information to users. */
 	function setGit(?GitData $value): static {
 		$this->git = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets a value indicating whether the build will not be considered done until a webhook has been sent to Coveralls.
-	 * @param bool $value `true` if the build will not be considered done until a webhook has been sent to Coverall, otherwise `false`.
-	 * @return $this This instance.
-	 */
+	/** Sets a value indicating whether the build will not be considered done until a webhook has been sent to Coveralls. */
 	function setParallel(bool $value): static {
 		$this->isParallel = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the secret token for the repository.
-	 * @param string $value The new secret token.
-	 * @return $this This instance.
-	 */
+	/** Sets the secret token for the repository. */
 	function setRepoToken(string $value): static {
 		$this->repoToken = $value;
 		return $this;
 	}
 
-	/**
-	 * Sets the timestamp of when the job ran.
-	 * @param \DateTimeInterface|null $value The new timestamp.
-	 * @return $this This instance.
-	 */
+	/** Sets the timestamp of when the job ran. */
 	function setRunAt(?\DateTimeInterface $value): static {
 		$this->runAt = $value ? \DateTimeImmutable::createFromInterface($value) : null;
 		return $this;
 	}
 
-	/**
-	 * Gets the unique identifier of the job on the CI service.
-	 * @param string $value The new unique identifier of the job on the CI service.
-	 * @return $this This instance.
-	 */
+	/** Sets the unique identifier of the job on the CI service. */
 	function setServiceJobId(string $value): static {
 		$this->serviceJobId = $value;
 		return $this;
 	}
 
-	/**
-	 * Gets the CI service or other environment in which the test suite was run.
-	 * @param string $value The new CI service in which the test suite was run.
-	 * @return $this This instance.
-	 */
+	/** Sets the CI service or other environment in which the test suite was run. */
 	function setServiceName(string $value): static {
 		$this->serviceName = $value;
 		return $this;
 	}
 
-	/**
-	 * Gets the build number.
-	 * @param string $value The new build number.
-	 * @return $this This instance.
-	 */
+	/** Sets the build number. */
 	function setServiceNumber(string $value): static {
 		$this->serviceNumber = $value;
 		return $this;
 	}
 
-	/**
-	 * Gets the associated pull request identifier of the build.
-	 * @param string $value The new pull request identifier.
-	 * @return $this This instance.
-	 */
+	/** Sets the associated pull request identifier of the build. */
 	function setServicePullRequest(string $value): static {
 		$this->servicePullRequest = $value;
 		return $this;

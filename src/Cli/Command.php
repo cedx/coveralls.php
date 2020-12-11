@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /** The console command. */
 class Command extends \Symfony\Component\Console\Command\Command {
 
-	/** @var string The command name. */
+	/** The command name. */
 	protected static $defaultName = "coveralls";
 
 	/** Configures the current command. */
@@ -20,12 +20,7 @@ class Command extends \Symfony\Component\Console\Command\Command {
 			->addArgument("file", InputArgument::REQUIRED, "The path of the coverage report to upload");
 	}
 
-	/**
-	 * Executes the current command.
-	 * @param InputInterface $input The input arguments and options.
-	 * @param OutputInterface $output The console output.
-	 * @return int The exit code.
-	 */
+	/** Executes the current command, and returns the exit code. */
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var string $path */
 		$path = $input->getArgument("file");

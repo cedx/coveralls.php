@@ -6,11 +6,7 @@ use Coveralls\Configuration;
 /** Fetches the [CircleCI](https://circleci.com) configuration parameters from the environment. */
 abstract class CircleCI {
 
-	/**
-	 * Gets the configuration parameters from the environment.
-	 * @param array<string, string|null> $env An array providing environment variables.
-	 * @return Configuration The configuration parameters.
-	 */
+	/** Reads the configuration parameters from the specified array of environment variables. */
 	static function getConfiguration(array $env): Configuration {
 		$nodes = (int) ($env["CIRCLE_NODE_TOTAL"] ?? "0");
 		return new Configuration([

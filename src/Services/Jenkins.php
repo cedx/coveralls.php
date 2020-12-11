@@ -6,11 +6,7 @@ use Coveralls\Configuration;
 /** Fetches the [Jenkins](https://jenkins.io) configuration parameters from the environment. */
 abstract class Jenkins {
 
-	/**
-	 * Gets the configuration parameters from the environment.
-	 * @param array<string, string|null> $env An array providing environment variables.
-	 * @return Configuration The configuration parameters.
-	 */
+	/** Reads the configuration parameters from the specified array of environment variables. */
 	static function getConfiguration(array $env): Configuration {
 		return new Configuration([
 			"commit_sha" => $env["GIT_COMMIT"] ?? null,

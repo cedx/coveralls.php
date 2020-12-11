@@ -7,13 +7,7 @@ use Webmozart\PathUtil\Path;
 /** Parses [Clover](https://www.atlassian.com/software/clover) coverage reports. */
 abstract class Clover {
 
-	/**
-	 * Parses the specified coverage report.
-	 * @param string $report A coverage report in Clover format.
-	 * @return Job The job corresponding to the specified coverage report.
-	 * @throws \InvalidArgumentException The specified report has an invalid format.
-	 * @throws \RuntimeException A source file was not found.
-	 */
+	/** Parses the specified coverage report. */
 	static function parseReport(string $report): Job {
 		/** @var \SimpleXMLElement $xml */
 		$xml = @simplexml_load_string($report);

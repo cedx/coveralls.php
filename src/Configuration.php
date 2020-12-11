@@ -5,25 +5,14 @@ use Coveralls\Services\{AppVeyor, CircleCI, Codeship, GitHub, GitLabCI, Jenkins,
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
-/**
- * Provides access to the coverage settings.
- * @implements \ArrayAccess<string, string|null>
- * @implements \IteratorAggregate<string, string|null>
- */
+/** Provides access to the coverage settings. */
 class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable {
 
-	/**
-	 * Creates a new configuration.
-	 * @param array<string, string|null> $params The configuration parameters.
-	 */
+	/** Creates a new configuration. */
 	function __construct(private array $params = []) {}
 
-	/**
-	 * Creates a new configuration from the variables of the specified environment.
-	 * @param array<string, string|null>|null $env An array providing environment variables. Defaults to `$_SERVER`.
-	 * @return self The newly created configuration.
-	 */
-	static function fromEnvironment(array $env = null): self {
+	/** Creates a new configuration from the specified array of environment variables. */
+	static function fromEnvironment(?array $env = null): self {
 		$config = new self;
 		$env ??= $_SERVER;
 
@@ -83,8 +72,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 
 	/**
 	 * Creates a new configuration from the specified YAML document.
-	 * @param string $document A YAML document providing configuration parameters.
-	 * @return self The instance corresponding to the specified YAML document.
 	 * @throws \InvalidArgumentException The specified document is invalid.
 	 */
 	static function fromYaml(string $document): self {
@@ -101,8 +88,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Loads the default configuration.
 	 * The default values are read from the environment variables and an optional `.coveralls.yml` file.
-	 * @param string $coverallsFile The path to the `.coveralls.yml` file. Defaults to the file found in the current directory.
-	 * @return self The default configuration.
 	 */
 	static function loadDefaults(string $coverallsFile = ".coveralls.yml"): self {
 		$defaults = static::fromEnvironment();
@@ -118,78 +103,48 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 		}
 	}
 
-	/**
-	 * Gets the number of entries in this configuration.
-	 * @return int The number of entries in this configuration.
-	 */
+	/** Gets the number of entries in this configuration. */
 	function count(): int {
 		return count($this->params);
 	}
 
-	/**
-	 * Returns a new iterator that allows iterating the elements of this configuration.
-	 * @return \Traversable<string, string|null> An iterator for the elements of this configuration.
-	 */
+	/** Returns a new iterator that allows iterating the elements of this configuration. */
 	function getIterator(): \Traversable {
 		return new \ArrayIterator($this->params);
 	}
 
-	/**
-	 * Gets the keys of this configuration.
-	 * @return string[] The keys of this configuration.
-	 */
+	/** Gets the keys of this configuration. */
 	function getKeys(): array {
 		return array_keys($this->params);
 	}
 
-	/**
-	 * Converts this object to a map in JSON format.
-	 * @return \stdClass The map in JSON format corresponding to this object.
-	 */
+	/** Converts this object to a map in JSON format. */
 	function jsonSerialize(): \stdClass {
 		return (object) $this->params;
 	}
 
-	/**
-	 * Adds all entries of the specified configuration to this one, ignoring `null` values.
-	 * @param static $config The configuration to be merged.
-	 */
+	/** Adds all entries of the specified configuration to this one, ignoring `null` values. */
 	function merge(self $config): void {
 		foreach ($config as $key => $value)
 			if ($value !== null) $this[$key] = $value;
 	}
 
-	/**
-	 * Gets a value indicating whether this configuration contains the specified key.
-	 * @param string $key The key to seek for.
-	 * @return bool `true` if this configuration contains the specified key, otherwiser `false`.
-	 */
+	/** Gets a value indicating whether this configuration contains the specified key. */
 	function offsetExists($key): bool {
 		return isset($this->params[$key]);
 	}
 
-	/**
-	 * Gets the value associated to the specified key.
-	 * @param string $key The key to seek for.
-	 * @return string|null The value, or a `null` reference is the key is not found.
-	 */
+	/** Gets the value associated to the specified key. */
 	function offsetGet($key): ?string {
 		return $this->params[$key] ?? null;
 	}
 
-	/**
-	 * Associates a given value to the specified key.
-	 * @param string $key The key to seek for.
-	 * @param string $value The new value.
-	 */
+	/** Associates a given value to the specified key. */
 	function offsetSet($key, $value): void {
 		$this->params[$key] = $value;
 	}
 
-	/**
-	 * Removes the value associated to the specified key.
-	 * @param string $key The key to seek for.
-	 */
+	/** Removes the value associated to the specified key. */
 	function offsetUnset($key): void {
 		unset($this->params[$key]);
 	}

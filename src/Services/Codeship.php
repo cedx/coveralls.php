@@ -6,11 +6,7 @@ use Coveralls\Configuration;
 /** Fetches the [Codeship](https://circleci.com) configuration parameters from the environment. */
 abstract class Codeship {
 
-	/**
-	 * Gets the configuration parameters from the environment.
-	 * @param array<string, string|null> $env An array providing environment variables.
-	 * @return Configuration The configuration parameters.
-	 */
+	/** Reads the configuration parameters from the specified array of environment variables. */
 	static function getConfiguration(array $env): Configuration {
 		return new Configuration([
 			"commit_sha" => $env["CI_COMMIT_ID"] ?? null,
