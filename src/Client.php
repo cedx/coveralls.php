@@ -69,7 +69,7 @@ class Client extends EventDispatcher {
 		if (!$job->getRunAt()) $job->setRunAt(new \DateTimeImmutable);
 
 		try {
-			which("git");
+			which("git")->first();
 			$git = GitData::fromRepository();
 			$branch = ($gitData = $job->getGit()) ? $gitData->getBranch() : "";
 			if ($git->getBranch() == "HEAD" && mb_strlen($branch)) $git->setBranch($branch);
