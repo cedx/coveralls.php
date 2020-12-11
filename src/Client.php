@@ -7,8 +7,8 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\Mime\Part\DataPart;
 use Symfony\Component\Mime\Part\Multipart\FormDataPart;
-use Which\FinderException;
-use function Which\which;
+use which\FinderException;
+use function which\which;
 
 /** Uploads code coverage reports to the [Coveralls](https://coveralls.io) service. */
 class Client extends EventDispatcher {
@@ -53,8 +53,6 @@ class Client extends EventDispatcher {
 	 * @throws \InvalidArgumentException The format of the specified coverage report is not supported.
 	 */
 	function upload(string $coverage, Configuration $config = null): void {
-		assert(mb_strlen($coverage) > 0);
-
 		$job = null;
 		$report = trim($coverage);
 		if (mb_substr($report, 0, 5) == "<?xml" || mb_substr($report, 0, 9) == "<coverage")
@@ -65,6 +63,8 @@ class Client extends EventDispatcher {
 		}
 
 		$job || throw new \InvalidArgumentException("The specified coverage format is not supported.");
+
+		/** @var Job $job */
 		$this->updateJob($job, $config ?? Configuration::loadDefaults());
 		if (!$job->getRunAt()) $job->setRunAt(new \DateTimeImmutable);
 
@@ -97,10 +97,7 @@ class Client extends EventDispatcher {
 			$formData = new FormDataPart(["json_file" => new DataPart($jsonFile, "coveralls.json")]);
 
 			$request = ($this->http->createRequest("POST", $uri))->withBody($this->http->createStream($formData->bodyToString()));
-			foreach ($formData->getPreparedHeaders()->all() as $header) {
-				/** @var \Symfony\Component\Mime\Header\HeaderInterface $header */
-				$request = $request->withHeader($header->getName(), $header->getBodyAsString());
-			}
+			foreach ($formData->getPreparedHeaders()->all() as $header) $request = $request->withHeader($header->getName(), $header->getBodyAsString());
 
 			$this->dispatch(new RequestEvent($request));
 			$response = $this->http->sendRequest($request);

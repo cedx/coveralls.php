@@ -13,12 +13,11 @@ class CloverTest extends TestCase {
 		$report = new \SplFileObject("test/fixtures/clover.xml");
 
 		// It should properly parse Clover reports.
-		$job = Clover::parseReport((string) $report->fread($report->getSize()));
+		$job = Clover::parseReport((string) $report->fread((int) $report->getSize()));
 		$files = $job->getSourceFiles();
 		[$firstFile, $secondFile, $thirdFile] = $files;
 		assertThat($files, countOf(3));
 
-		/** @var SourceFile $firstFile */
 		$subset = [null, 2, 2, 2, 2, null];
 		assertThat($firstFile, isInstanceOf(SourceFile::class));
 		assertThat($firstFile->getBranches(), isEmpty());
@@ -26,7 +25,6 @@ class CloverTest extends TestCase {
 		assertThat($firstFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Client.php")));
 		assertThat($firstFile->getSourceDigest(), logicalNot(isEmpty()));
 
-		/** @var SourceFile $secondFile */
 		$subset = [null, 4, 4, 2, 2, 4, 2, 2, 4, 4, null];
 		assertThat($secondFile, isInstanceOf(SourceFile::class));
 		assertThat($secondFile->getBranches(), isEmpty());
@@ -34,7 +32,6 @@ class CloverTest extends TestCase {
 		assertThat($secondFile->getName(), equalTo(str_replace("/", DIRECTORY_SEPARATOR, "src/Configuration.php")));
 		assertThat($secondFile->getSourceDigest(), logicalNot(isEmpty()));
 
-		/** @var SourceFile $thirdFile */
 		$subset = [null, 2, 2, 2, 2, 2, 0, 0, 2, 2, null];
 		assertThat($thirdFile, isInstanceOf(SourceFile::class));
 		assertThat($thirdFile->getBranches(), isEmpty());

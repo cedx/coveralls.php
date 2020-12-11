@@ -15,6 +15,7 @@ abstract class Clover {
 	 * @throws \RuntimeException A source file was not found.
 	 */
 	static function parseReport(string $report): Job {
+		/** @var \SimpleXMLElement $xml */
 		$xml = @simplexml_load_string($report);
 		($xml && $xml->count() && $xml->project->count()) || throw new \InvalidArgumentException("The specified Clover report is invalid.");
 
@@ -27,7 +28,7 @@ abstract class Clover {
 			$sourceFile = new \SplFileObject((string) $file["name"]);
 			$sourceFile->isReadable() || throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
 
-			$source = (string) $sourceFile->fread($sourceFile->getSize());
+			$source = (string) $sourceFile->fread((int) $sourceFile->getSize());
 			mb_strlen($source) || throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
 			$coverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));

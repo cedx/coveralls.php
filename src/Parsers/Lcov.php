@@ -20,24 +20,20 @@ abstract class Lcov {
 			$sourceFile = new \SplFileObject($record->sourceFile);
 			$sourceFile->isReadable() || throw new \RuntimeException("Source file not found: {$sourceFile->getPathname()}");
 
-			$source = (string) $sourceFile->fread($sourceFile->getSize());
+			$source = (string) $sourceFile->fread((int) $sourceFile->getSize());
 			mb_strlen($source) || throw new \RuntimeException("Source file empty: {$sourceFile->getPathname()}");
 
 			/** @var \lcov\LineCoverage|null $lines */
 			$lines = $record->lines;
 			$lineCoverage = new \SplFixedArray(count(preg_split('/\r?\n/', $source) ?: []));
-			if ($lines) foreach ($lines->data as $lineData) {
-				/** @var \lcov\LineData $lineData */
+			if ($lines) foreach ($lines->data as $lineData)
 				$lineCoverage[$lineData->lineNumber - 1] = $lineData->executionCount;
-			}
 
 			/** @var \lcov\BranchCoverage|null $branches */
 			$branches = $record->branches;
 			$branchCoverage = [];
-			if ($branches) foreach ($branches->data as $branchData) {
-				/** @var \lcov\BranchData $branchData */
+			if ($branches) foreach ($branches->data as $branchData)
 				array_push($branchCoverage, $branchData->lineNumber, $branchData->blockNumber, $branchData->branchNumber, $branchData->taken);
-			}
 
 			$filename = Path::isAbsolute($sourceFile->getPathname())
 				? Path::makeRelative($sourceFile->getPathname(), $workingDir)

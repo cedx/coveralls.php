@@ -33,7 +33,6 @@ class GitDataTest extends TestCase {
 		$remotes = $data->getRemotes();
 		assertThat($remotes, countOf(1));
 
-		/** @var GitRemote $remote */
 		[$remote] = $remotes;
 		assertThat($remote, isInstanceOf(GitRemote::class));
 		assertThat($remote->getName(), equalTo("origin"));
@@ -53,7 +52,6 @@ class GitDataTest extends TestCase {
 		assertThat($remotes, logicalNot(isEmpty()));
 		assertThat($remotes[0], isInstanceOf(GitRemote::class));
 
-		/** @var GitRemote[] $origins */
 		$origins = array_values(array_filter((array) $remotes, fn(GitRemote $remote) => $remote->getName() == "origin"));
 		assertThat($origins, countOf(1));
 		assertThat((string) $origins[0]->getUrl(), logicalOr(

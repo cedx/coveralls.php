@@ -168,7 +168,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * @return bool `true` if this configuration contains the specified key, otherwiser `false`.
 	 */
 	function offsetExists($key): bool {
-		assert(is_string($key) && mb_strlen($key) > 0);
 		return isset($this->params[$key]);
 	}
 
@@ -178,7 +177,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * @return string|null The value, or a `null` reference is the key is not found.
 	 */
 	function offsetGet($key): ?string {
-		assert(is_string($key) && mb_strlen($key) > 0);
 		return $this->params[$key] ?? null;
 	}
 
@@ -197,7 +195,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * @param string $key The key to seek for.
 	 */
 	function offsetUnset($key): void {
-		assert(is_string($key) && mb_strlen($key) > 0);
 		unset($this->params[$key]);
 	}
 }
