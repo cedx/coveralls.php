@@ -1,5 +1,11 @@
 # Changelog
 
+## Version [14.0.0](https://git.belin.io/cedx/coveralls.php/compare/v13.2.0...v14.0.0)
+- Breaking change: raised the required [PHP](https://www.php.net) version.
+- Breaking change: using PHP 8.0 features, like constructor property promotion, non-capturing catches, static return type and throw expressions.
+- Ported the documentation to [docsify](https://docsify.js.org).
+- Updated the package dependencies.
+
 ## Version [13.2.0](https://git.belin.io/cedx/coveralls.php/compare/v13.1.1...v13.2.0)
 - Merged the [pull request #10](https://github.com/cedx/coveralls.php/pull/10): added missing `flag_name` config.
 - Updated the package dependencies.
