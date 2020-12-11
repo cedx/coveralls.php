@@ -21,10 +21,10 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Creates a new configuration from the variables of the specified environment.
 	 * @param array<string, string|null>|null $env An array providing environment variables. Defaults to `$_SERVER`.
-	 * @return static The newly created configuration.
+	 * @return self The newly created configuration.
 	 */
-	static function fromEnvironment(array $env = null): static {
-		$config = new static;
+	static function fromEnvironment(array $env = null): self {
+		$config = new self;
 		$env ??= $_SERVER;
 
 		// Standard.
@@ -84,15 +84,13 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	/**
 	 * Creates a new configuration from the specified YAML document.
 	 * @param string $document A YAML document providing configuration parameters.
-	 * @return static The instance corresponding to the specified YAML document.
+	 * @return self The instance corresponding to the specified YAML document.
 	 * @throws \InvalidArgumentException The specified document is invalid.
 	 */
-	static function fromYaml(string $document): static {
-		assert(mb_strlen($document) > 0);
-
+	static function fromYaml(string $document): self {
 		try {
 			is_array($yaml = Yaml::parse($document)) || throw new \InvalidArgumentException("The specified YAML document is invalid.");
-			return new static($yaml);
+			return new self($yaml);
 		}
 
 		catch (ParseException $e) {
@@ -104,15 +102,14 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * Loads the default configuration.
 	 * The default values are read from the environment variables and an optional `.coveralls.yml` file.
 	 * @param string $coverallsFile The path to the `.coveralls.yml` file. Defaults to the file found in the current directory.
-	 * @return static The default configuration.
+	 * @return self The default configuration.
 	 */
-	static function loadDefaults(string $coverallsFile = ".coveralls.yml"): static {
-		assert(mb_strlen($coverallsFile) > 0);
+	static function loadDefaults(string $coverallsFile = ".coveralls.yml"): self {
 		$defaults = static::fromEnvironment();
 
 		try {
 			$file = new \SplFileObject($coverallsFile);
-			if ($file->isReadable()) $defaults->merge(static::fromYaml((string) $file->fread($file->getSize())));
+			if ($file->isReadable()) $defaults->merge(static::fromYaml((string) $file->fread((int) $file->getSize())));
 			return $defaults;
 		}
 
@@ -157,7 +154,7 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * Adds all entries of the specified configuration to this one, ignoring `null` values.
 	 * @param static $config The configuration to be merged.
 	 */
-	function merge(static $config): void {
+	function merge(self $config): void {
 		foreach ($config as $key => $value)
 			if ($value !== null) $this[$key] = $value;
 	}
@@ -186,7 +183,6 @@ class Configuration implements \ArrayAccess, \Countable, \IteratorAggregate, \Js
 	 * @param string $value The new value.
 	 */
 	function offsetSet($key, $value): void {
-		assert(is_string($key) && mb_strlen($key) > 0);
 		$this->params[$key] = $value;
 	}
 

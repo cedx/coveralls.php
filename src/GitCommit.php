@@ -29,10 +29,10 @@ class GitCommit implements \JsonSerializable {
 	/**
 	 * Creates a new Git commit from the specified JSON object.
 	 * @param object $map A JSON object representing a Git commit.
-	 * @return static The instance corresponding to the specified JSON object.
+	 * @return self The instance corresponding to the specified JSON object.
 	 */
-	static function fromJson(object $map): static {
-		return (new static(isset($map->id) && is_string($map->id) ? $map->id : "", isset($map->message) && is_string($map->message) ? $map->message : ""))
+	static function fromJson(object $map): self {
+		return (new self(isset($map->id) && is_string($map->id) ? $map->id : "", isset($map->message) && is_string($map->message) ? $map->message : ""))
 			->setAuthorEmail(isset($map->author_email) && is_string($map->author_email) ? $map->author_email : "")
 			->setAuthorName(isset($map->author_name) && is_string($map->author_name) ? $map->author_name : "")
 			->setCommitterEmail(isset($map->committer_email) && is_string($map->committer_email) ? $map->committer_email : "")

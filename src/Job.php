@@ -48,10 +48,10 @@ class Job implements \JsonSerializable {
 	/**
 	 * Creates a new job from the specified JSON object.
 	 * @param object $map A JSON object representing a job.
-	 * @return static The instance corresponding to the specified JSON object.
+	 * @return self The instance corresponding to the specified JSON object.
 	 */
-	static function fromJson(object $map): static {
-		return (new static(isset($map->source_files) && is_array($map->source_files) ? array_map([SourceFile::class, "fromJson"], $map->source_files) : []))
+	static function fromJson(object $map): self {
+		return (new self(isset($map->source_files) && is_array($map->source_files) ? array_map([SourceFile::class, "fromJson"], $map->source_files) : []))
 			->setCommitSha(isset($map->commit_sha) && is_string($map->commit_sha) ? $map->commit_sha : "")
 			->setFlagName(isset($map->flag_name) && is_string($map->flag_name) ? $map->flag_name : "")
 			->setGit(isset($map->git) && is_object($map->git) ? GitData::fromJson($map->git) : null)
