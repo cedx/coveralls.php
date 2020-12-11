@@ -43,7 +43,7 @@
 - Updated the package dependencies.
 
 ## Version [10.1.0](https://git.belin.io/cedx/coveralls.php/compare/v10.0.0...v10.1.0)
-- Merge [GitHub pull request #6](https://git.belin.io/cedx/coveralls.php/pull/6): added new test cases.
+- Merged [pull request #6](https://github.com/cedx/coveralls.php/pull/6): added new test cases.
 - Modified the package layout.
 - Updated the package dependencies.
 - Updated the URL of the default API endpoint.
@@ -55,7 +55,7 @@
 - Updated the package dependencies.
 
 ## Version [9.1.2](https://git.belin.io/cedx/coveralls.php/compare/v9.1.1...v9.1.2)
-- Fixed the [issue #5](https://git.belin.io/cedx/coveralls.php/issues/5): an invalid output URL was generated when using a well-formed input URL.
+- Fixed the [issue #5](https://github.com/cedx/coveralls.php/issues/5): an invalid output URL was generated when using a well-formed input URL.
 
 ## Version [9.1.1](https://git.belin.io/cedx/coveralls.php/compare/v9.1.0...v9.1.1)
 - Improved the handling of SSH-based [Git](https://git-scm.com) remotes.
@@ -65,7 +65,7 @@
 - Updated the package dependencies.
 
 ## Version [9.0.1](https://git.belin.io/cedx/coveralls.php/compare/v9.0.0...v9.0.1)
-- Fixed the [issue #3](https://git.belin.io/cedx/coveralls.php/issues/3): the CLI used the old signature of the `Client` constructor.
+- Fixed the [issue #3](https://github.com/cedx/coveralls.php/issues/3): the CLI used the old signature of the `Client` constructor.
 
 ## Version [9.0.0](https://git.belin.io/cedx/coveralls.php/compare/v8.0.0...v9.0.0)
 - Breaking change: changed the signature of the `Client`, `ClientException` and `GitRemote` constructors.
@@ -116,7 +116,7 @@
 - Breaking change: renamed the `coveralls` namespace to `Coveralls`.
 
 ## Version [2.0.1](https://git.belin.io/cedx/coveralls.php/compare/v2.0.0...v2.0.1)
-- Merged [pull request #1](https://git.belin.io/cedx/coveralls.php/pull/1): fixes an issue with usages of the `array_filter()` function.
+- Merged [pull request #1](https://github.com/cedx/coveralls.php/pull/1): fixes an issue with usages of the `array_filter()` function.
 
 ## Version [2.0.0](https://git.belin.io/cedx/coveralls.php/compare/v1.0.0...v2.0.0)
 - Breaking change: ported some APIs to [Observables](http://reactivex.io/intro.html).
