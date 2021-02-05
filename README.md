@@ -5,13 +5,13 @@
 > to the [Coveralls](https://coveralls.io) service, in [PHP](https://www.php.net).
 
 ## Documentation
-- [User guide](https://docs.belin.io/coveralls.php)
-- [API reference](https://api.belin.io/coveralls.php)
+- [User guide](https://cedx.github.io/coveralls.php)
+- [API reference](https://cedx.github.io/coveralls.php/api)
 
 ## Development
-- [Git repository](https://git.belin.io/cedx/coveralls.php)
+- [Git repository](https://github.com/cedx/coveralls.php)
 - [Packagist package](https://packagist.org/packages/cedx/coveralls)
-- [Submit an issue](https://git.belin.io/cedx/coveralls.php/issues)
+- [Submit an issue](https://github.com/cedx/coveralls.php/issues)
 
 ## License
-[Coveralls for PHP](https://docs.belin.io/coveralls.php) is distributed under the MIT License.
+[Coveralls for PHP](https://cedx.github.io/coveralls.php) is distributed under the MIT License.

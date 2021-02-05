@@ -55,8 +55,6 @@ class GitDataTest extends TestCase {
 		$origins = array_values(array_filter((array) $remotes, fn(GitRemote $remote) => $remote->getName() == "origin"));
 		assertThat($origins, countOf(1));
 		assertThat((string) $origins[0]->getUrl(), logicalOr(
-			equalTo("https://git.belin.io/cedx/coveralls.php"),
-			equalTo("https://git.belin.io/cedx/coveralls.php.git"),
 			equalTo("https://github.com/cedx/coveralls.php"),
 			equalTo("https://github.com/cedx/coveralls.php.git")
 		));
