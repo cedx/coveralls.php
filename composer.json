@@ -1,4 +1,5 @@
 {
+	"abondoned": "php-coveralls/php-coveralls",
 	"description": "Send Clover and LCOV coverage reports to the Coveralls service.",
 	"homepage": "https://cedx.github.io/coveralls.php",
 	"license": "MIT",
@@ -43,16 +44,16 @@
 		"cedx/which.hx": "^2.0.2",
 		"nyholm/psr7": "^1.4.0",
 		"psr/http-client": "^1.0.1",
-		"symfony/console": "^5.2.4",
+		"symfony/console": "^5.2.5",
 		"symfony/event-dispatcher": "^5.2.4",
 		"symfony/http-client": "^5.2.4",
-		"symfony/mime": "^5.2.4",
-		"symfony/yaml": "^5.2.4",
+		"symfony/mime": "^5.2.5",
+		"symfony/yaml": "^5.2.5",
 		"webmozart/path-util": "^2.3.0"
 	},
 	"require-dev": {
-		"phpstan/phpstan": "^0.12.80",
-		"phpunit/phpunit": "^9.5.2"
+		"phpstan/phpstan": "^0.12.82",
+		"phpunit/phpunit": "^9.5.3"
 	},
 	"scripts": {
 		"build": "pwsh tool/build.ps1",
